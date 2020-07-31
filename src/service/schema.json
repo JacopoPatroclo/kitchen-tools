@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "InternalServiceGenerator",
+  "title": "Generator helper to create internal services",
+  "type": "object",
+  "description": "Generate service boilerplate",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the service",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      }
+    }
+  }
+}

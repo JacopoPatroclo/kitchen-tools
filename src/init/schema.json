@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "id": "ProjectGenerator",
+    "title": "bakeme init projectName",
+    "type": "object",
+    "description": "Generate the base for the project",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "The name of the project",
+        "$default": {
+            "$source": "argv",
+            "index": 1
+        }
+      }
+    }
+  }

@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+import { spawnSync } from "child_process";
+import { join, resolve } from "path";
+
+const shemName = process.argv[2]
+const otherParams = process.argv.slice(2, process.argv.length)
+
+const collectionJsonPath = resolve(join(__dirname, 'collection.json'))
+
+spawnSync(
+  resolve(
+    join(
+      __dirname,
+      "..",
+      "node_modules",
+      ".bin",
+      "schematics"
+    )
+  ),
+  [`${collectionJsonPath}:${shemName}`, '--debug=false', ...otherParams],
+  {
+    env: process.env,
+    shell: true,
+    stdio: [0, 1, 2]
+  }
+);
+
+process.exit(0)

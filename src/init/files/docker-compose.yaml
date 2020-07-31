@@ -1,0 +1,53 @@
+version: "3.5"
+
+networks:
+  tier_0: ## Outside world
+  tier_1: ## Inside proxy
+    name: tier_1
+  tier_log: ## Logging
+
+volumes:
+  nginx_:
+  vhost_:
+  certs_:
+
+services:
+
+  ###########
+  ## PROXY ##
+  ###########
+  proxy:
+    image: registry.progress44.com/nginx:latest
+    container_name: $COMPOSE_PROJECT_NAME.nginx
+    restart: unless-stopped
+    environment:
+      - LOGSTASH_TAGS="loadbalancer,proxy"
+    labels:
+        com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - tier_0
+      - tier_1
+      - tier_log
+    volumes:
+      - vhost_:/etc/nginx/vhost.d
+      - nginx_:/etc/nginx/conf.d
+      - certs_:/etc/nginx/certs:ro
+
+  dockergen:
+    image: registry.progress44.com/dockergen:latest
+    container_name: $COMPOSE_PROJECT_NAME.dockergen
+    restart: unless-stopped
+    environment:
+      - LOGSTASH_TAGS="loadbalancer,proxy"
+    entrypoint: /usr/local/bin/docker-gen -notify-sighup $COMPOSE_PROJECT_NAME.nginx -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+    networks:
+      - tier_1
+      - tier_log
+    volumes:
+      - vhost_:/etc/nginx/vhost.d
+      - nginx_:/etc/nginx/conf.d
+      - certs_:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro

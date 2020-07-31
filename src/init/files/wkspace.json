@@ -1,0 +1,8 @@
+{
+    "name": "<%= name %>",
+    "services": [],
+    "env": {
+        "REGISTRY": "",
+        "COMPOSE_PROJECT_NAME": "<%= name %>"
+    }
+}

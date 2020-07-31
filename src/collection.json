@@ -1,0 +1,25 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "init": {
+      "description": "A blank schematic.",
+      "factory": "./init/index#init",
+      "schema": "./init/schema.json"
+    },
+    "new": {
+      "description": "A blank schematic.",
+      "factory": "./new/index#nev",
+      "schema": "./new/schema.json"
+    },
+    "custom": {
+      "description": "A blank schematic.",
+      "factory": "./custom/index#custom",
+      "schema": "./custom/schema.json"
+    },
+    "service": {
+      "description": "A blank schematic.",
+      "factory": "./service/index#service",
+      "schema": "./service/schema.json"
+    }
+  }
+}

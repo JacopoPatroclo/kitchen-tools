@@ -1,0 +1,25 @@
+version: '3.5'
+
+networks:
+    proxy:
+        external:
+            name: tier_1
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    build: 
+        context: ./services/<%= name %>
+        dockerfile: ./docker/Dockerfile
+    volumes: 
+        - ./services/<%= name %>/src:/usr/src/app
+    environment: 
+        - NODE_ENV=${NODE_ENV}
+        - PORT=9000
+        - VIRTUAL_HOST=<%= name %>
+    networks:
+        - proxy
+    depends_on: 
+        - proxy
+        - dockergen

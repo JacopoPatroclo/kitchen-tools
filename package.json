@@ -1,0 +1,40 @@
+{
+  "name": "init",
+  "version": "0.0.0",
+  "description": "A blank schematics",
+  "bin": {
+    "bake": "./src/bake.js",
+    "oven": "./src/oven.js",
+    "bake-mix": "./src/mix.js",
+    "bake-help": "./src/help.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json --watch",
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "schematics": "schematics"
+  },
+  "keywords": [
+    "schematics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "schematics": "./src/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "^10.0.4",
+    "@angular-devkit/schematics": "^10.0.4",
+    "@angular-devkit/schematics-cli": "^0.1000.4",
+    "js-yaml": "^3.14.0",
+    "lodash": "^4.17.19",
+    "marked": "^1.1.1",
+    "marked-terminal": "^4.1.0",
+    "typescript": "~3.9.7"
+  },
+  "devDependencies": {
+    "@types/jasmine": "~3.5.0",
+    "@types/js-yaml": "^3.12.5",
+    "@types/lodash": "^4.14.158",
+    "@types/node": "^12.11.1",
+    "jasmine": "^3.5.0"
+  }
+}

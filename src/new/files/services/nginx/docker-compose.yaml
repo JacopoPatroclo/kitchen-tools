@@ -1,0 +1,30 @@
+version: '3.5'
+
+networks:
+    <% if(fpmService || proxyPass) { %><%=fpmService || proxyPass %>_net:<% } %>
+    proxy:
+        external:
+            name: tier_1
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    build: 
+        context: ./services/<%= name %>
+        dockerfile: ./docker/Dockerfile
+    volumes: 
+        <% if(fpmService) { %>- ./services/<%= fpmService %>/src:/usr/site/public<% }
+        else { %>- ./services/<%= name %>/src:/usr/site/public<% } %>
+    environment: 
+        - VIRTUAL_HOST=<%= fpmService || proxyPass %>
+    networks:
+        - proxy
+        <% if(fpmService || proxyPass) { %>- <%= fpmService || proxyPass %>_net<% } %>
+    depends_on: 
+        - proxy
+        - dockergen<% if(fpmService) { %>
+        - <%= fpmService %>
+        <% } %><% if(proxyPass) { %>
+        - <%= proxyPass %>
+        <% } %>

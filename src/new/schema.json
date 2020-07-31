@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "ServiceGenerator",
+  "title": "bakeme new serviceType ServiceName",
+  "type": "object",
+  "description": "Generate services",
+  "properties": {
+    "tipology": {
+      "type": "string",
+      "description": "The name of the service",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      }
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the service",
+      "$default": {
+        "$source": "argv",
+        "index": 2
+      }
+    }
+  }
+}

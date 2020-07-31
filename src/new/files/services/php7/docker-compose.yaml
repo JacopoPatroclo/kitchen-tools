@@ -1,0 +1,16 @@
+version: '3.5'
+
+networks:
+    <%= name %>_net:
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    build: 
+        context: ./services/<%= name %>
+        dockerfile: ./docker/Dockerfile
+    volumes: 
+        - ./services/<%= name %>/src:/usr/site/public
+    networks: 
+        - <%= name %>_net
