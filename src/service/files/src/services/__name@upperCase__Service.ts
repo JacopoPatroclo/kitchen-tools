@@ -4,7 +4,7 @@ import { strings } from "@angular-devkit/core";
 
 const serviceTiplogy = '<%= name %>'
 
-export function <% upperCase(name) %>Service(_context: any): ServiceDescriptor {
+export function <% camelCase(name) %>Service(_context: any): ServiceDescriptor {
   if (!_context?.name) {
     throw new Error("Missing name as a parameter");
   }
@@ -21,4 +21,4 @@ export function <% upperCase(name) %>Service(_context: any): ServiceDescriptor {
   };
 }
 
-<% upperCase(name) %>Service.tipology = serviceTiplogy
+<% camelCase(name) %>Service.tipology = serviceTiplogy

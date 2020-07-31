@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree, url, apply, template, move, mergeWith, chain } from '@angular-devkit/schematics';
 import { strings } from '@angular-devkit/core';
-import { upperCase } from 'lodash';
-import { join } from 'path';
+import { camelCase } from 'lodash';
 
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -14,16 +13,17 @@ export function service(_options: any): Rule {
       template({
         ..._options,
         ...strings,
-        upperCase: upperCase
+        camelCase: camelCase,
+        templateName: '<%= name %>'
       }),
-      move('.', join(__dirname, '..', 'new'))
+      move('.', `./src/new`)
     ])
 
-    const serviceFactory = tree.read(join(__dirname,'../new/src/serviceFactory.ts'))?.toString()
-    const importnewService = `import { ${upperCase(_options.name)}Service } from "./services/${upperCase(_options.name)}Service";/n${serviceFactory}`
-    const updatedFactory = importnewService?.replace('/*ADDNEWSERVICE*/', `, ${upperCase(_options.name)}Service /*ADDNEWSERVICE*/`)
+    const serviceFactory = tree.read('./src/new/src/serviceFactory.ts')?.toString()
+    const importnewService = `import { ${camelCase(_options.name)}Service } from "./services/${camelCase(_options.name)}Service";/n${serviceFactory}`
+    const updatedFactory = importnewService?.replace('/*ADDNEWSERVICE*/', `, ${camelCase(_options.name)}Service /*ADDNEWSERVICE*/`)
 
-    tree.overwrite(join(__dirname,'../new/src/serviceFactory.ts'), updatedFactory)
+    tree.overwrite('./src/new/src/serviceFactory.ts', updatedFactory)
 
     return chain([
       mergeWith(sourceParametrizedTemplates)

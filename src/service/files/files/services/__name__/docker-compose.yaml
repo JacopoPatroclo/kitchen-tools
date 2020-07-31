@@ -1,11 +1,11 @@
 version: '3.5'
 
 services:
-  <%= "<%= name %>" %>:
-    image: ${REGISTRY}<%= "<%= name %>" %>:latest
-    container_name: $COMPOSE_PROJECT_NAME.<%= "<%= name %>" %>
+  <%= templateName %>:
+    image: ${REGISTRY}<%= templateName %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= templateName %>
     build: 
-        context: ./services/<%= "<%= name %>" %>
+        context: ./services/<%= templateName %>
         dockerfile: ./docker/Dockerfile
     volumes: 
-        - ./services/<%= "<%= name %>" %>/src:/app
+        - ./services/<%= templateName %>/src:/app
