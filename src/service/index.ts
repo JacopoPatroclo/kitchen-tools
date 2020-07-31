@@ -20,7 +20,8 @@ export function service(_options: any): Rule {
     ])
 
     const serviceFactory = tree.read('./src/new/src/serviceFactory.ts')?.toString()
-    const importnewService = `import { ${camelCase(_options.name)}Service } from "./services/${camelCase(_options.name)}Service";/n${serviceFactory}`
+    const importnewService = `import { ${camelCase(_options.name)}Service } from "./services/${camelCase(_options.name)}Service";
+    ${serviceFactory}`
     const updatedFactory = importnewService?.replace('/*ADDNEWSERVICE*/', `, ${camelCase(_options.name)}Service /*ADDNEWSERVICE*/`)
 
     tree.overwrite('./src/new/src/serviceFactory.ts', updatedFactory)
