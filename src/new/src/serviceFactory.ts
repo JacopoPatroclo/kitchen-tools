@@ -1,3 +1,4 @@
+
 import { Service } from "../../shared/helpers/ConfigurationHelper";
 import { Source } from "@angular-devkit/schematics";
 import { NodeService } from "./services/NodeService";
@@ -5,7 +6,7 @@ import { CustomService } from "./services/CustomService";
 import { Php7Service } from "./services/Php7Service";
 import { NginxService } from "./services/NginxService";
 
-const services = [NodeService, Php7Service, NginxService /*ADDNEWSERVICE*/];
+const services = [NodeService, Php7Service, NginxService/*ADDNEWSERVICE*/];
 
 export interface ServiceDescriptor {
   json: Service;

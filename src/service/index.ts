@@ -2,7 +2,6 @@ import { Rule, SchematicContext, Tree, url, apply, template, move, mergeWith, ch
 import { strings } from '@angular-devkit/core';
 import { camelCase } from 'lodash';
 
-
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 export function service(_options: any): Rule {
@@ -21,7 +20,7 @@ export function service(_options: any): Rule {
 
     const serviceFactory = tree.read('./src/new/src/serviceFactory.ts')?.toString()
     const importnewService = `import { ${camelCase(_options.name)}Service } from "./services/${camelCase(_options.name)}Service";
-    ${serviceFactory}`
+${serviceFactory}`
     const updatedFactory = importnewService?.replace('/*ADDNEWSERVICE*/', `, ${camelCase(_options.name)}Service /*ADDNEWSERVICE*/`)
 
     tree.overwrite('./src/new/src/serviceFactory.ts', updatedFactory)
