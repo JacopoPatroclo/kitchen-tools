@@ -13,7 +13,7 @@
     "build:watch": "tsc -p tsconfig.json --watch",
     "test": "yarn run build && jasmine src/**/*_spec.js",
     "schematics": "schematics",
-    "np": "np"
+    "np": "np --no-2fa"
   },
   "keywords": [
     "kitchen-tools",
