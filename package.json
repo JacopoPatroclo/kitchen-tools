@@ -12,7 +12,8 @@
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
     "test": "npm run build && jasmine src/**/*_spec.js",
-    "schematics": "schematics"
+    "schematics": "schematics",
+    "np": "np"
   },
   "keywords": [
     "kitchen-tools",
@@ -38,6 +39,7 @@
     "@types/js-yaml": "^3.12.5",
     "@types/lodash": "^4.14.158",
     "@types/node": "^12.11.1",
-    "jasmine": "^3.5.0"
+    "jasmine": "^3.5.0",
+    "np": "^6.3.2"
   }
 }
