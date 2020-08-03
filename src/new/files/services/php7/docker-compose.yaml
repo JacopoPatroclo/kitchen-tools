@@ -3,6 +3,9 @@ version: '3.5'
 networks:
     <%= name %>_net:
 
+volumes: 
+    fpm_share_code:
+
 services:
   <%= name %>:
     image: ${REGISTRY}<%= name %>:latest
@@ -11,6 +14,9 @@ services:
         context: ./services/<%= name %>
         dockerfile: ./docker/Dockerfile
     volumes: 
+        - fpm_share_code:/usr/site/public
         - ./services/<%= name %>/src:/usr/site/public
     networks: 
         - <%= name %>_net
+    environment:
+        - PHP_ENV=${PHP_ENV}

@@ -3,7 +3,7 @@
 import { ConfigurationHelper } from "./shared/helpers/ConfigurationHelper";
 import * as yaml from "js-yaml";
 import { join, resolve } from "path";
-import { readFileSync, unlinkSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { merge } from 'lodash'
 
 let workspaceConfig = null;
@@ -38,6 +38,13 @@ const dockerComposes = config.services.map(service => {
         const conf = { ...dc.config }
         conf.build = null
         delete conf.build
+        // Remove all the volumes that are referring to the current file structure
+        conf.volumes = conf.volumes?.filter((volume: string) => !volume.includes('./services'))
+        // Remove dependency form proxy
+        conf.depends_on = conf.depends_on?.filter(dep => dep !== 'proxy' && dep !== 'dockergen') || []
+        if (conf.depends_on.length <= 0) {
+          delete conf.depends_on
+        }
         return { ...dc, config: conf }
       })
       .reduce(((acc, obj) => ({ ...acc, [obj.key]: obj.config })), {})

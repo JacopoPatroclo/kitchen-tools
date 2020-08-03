@@ -6,6 +6,11 @@ networks:
         external:
             name: tier_1
 
+<% if(fpmService) { %>
+volumes: 
+    fpm_share_code:
+<% } %>
+
 services:
   <%= name %>:
     image: ${REGISTRY}<%= name %>:latest
@@ -14,7 +19,9 @@ services:
         context: ./services/<%= name %>
         dockerfile: ./docker/Dockerfile
     volumes: 
-        <% if(fpmService) { %>- ./services/<%= fpmService %>/src:/usr/site/public<% }
+        <% if(fpmService) {
+        %>- fpm_share_code:/usr/site/public
+        - ./services/<%= fpmService %>/src:/usr/site/public<% }
         else { %>- ./services/<%= name %>/src:/usr/site/public<% } %>
     environment: 
         - VIRTUAL_HOST=<%= fpmService || proxyPass %>

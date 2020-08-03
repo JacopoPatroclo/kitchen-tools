@@ -2,11 +2,11 @@
 
 Thanks
 
-# Why
+## Why
 
 The purpose of this project it's to reduce the time it takes to generate new projects with a service oriented architecture promoting the used of already existing architectural recepy (hence the name) for solving common problems. Furthermore we want to create a better developer experience around docker and docker-compose that are already amazing tools.
 
-# How to
+## How to
 
 This project uses yarn so it should be installed localy on your machine
 
@@ -18,7 +18,7 @@ If you want to run tests localy use the `yarn test` command.
 
 If you want to create new services use the built in `service` schematics, simply run `yarn schematics .:service --name=testme --debug=false`
 
-# Project structure
+## Project structure
 
 All the code is contained inside `/src`, here you can find `bake.ts` `help.ts` `mix.ts` `oven.ts`. This are the main scripts for the respective commands. Frthermore in this direcotry you can find all the schematics use for the project and services generation.
 

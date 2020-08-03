@@ -2,13 +2,13 @@
 
 Set of tools to generate and run docker-composes service oriented projects.
 
-# Installation
+## Installation
 
 You have to have installed docker and docker-compose on your machine
 
 Just run `npm i -g kitchen-tools`
 
-# Documentation
+## Documentation
 
 There are two important command: `bake` and `oven`.
 
