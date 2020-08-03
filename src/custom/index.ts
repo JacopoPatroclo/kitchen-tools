@@ -12,7 +12,8 @@ export function custom(_options: any): Rule {
     const sourceParametrizedTemplates = apply(sourceTemp, [
       template({
         ..._options,
-        ...strings
+        ...strings,
+        templateName: '<%= name %>'
       }),
       move('.', _options.to || _options.name)
     ])

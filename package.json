@@ -1,7 +1,7 @@
 {
-  "name": "init",
-  "version": "0.0.0",
-  "description": "A blank schematics",
+  "name": "kitchen-tools",
+  "version": "0.0.1",
+  "description": "Tool to manage monorepo with service oriented architecture based on docker and docker-compose",
   "bin": {
     "bake": "./src/bake.js",
     "oven": "./src/oven.js",
@@ -15,9 +15,12 @@
     "schematics": "schematics"
   },
   "keywords": [
-    "schematics"
+    "kitchen-tools",
+    "monorepo",
+    "docker",
+    "docker-compose"
   ],
-  "author": "",
+  "author": "Jacopo Martinelli <jacopo.patroclo.martinelli@gmail.com> (https://github.com/JacopoPatroclo)",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
