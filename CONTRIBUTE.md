@@ -12,7 +12,7 @@ This project uses yarn so it should be installed localy on your machine
 
 As you can see in package.json you can run `yarn build` or `yarn build:watch` to build the project.
 
-To develop this package localy you should run `npm run link`, remember if you have installed other version of this package globaly you should remove those installations.
+To develop this package localy you should run `yarn link`, remember if you have installed other version of this package globaly you should remove those installations.
 
 If you want to run tests localy use the `yarn test` command.
 

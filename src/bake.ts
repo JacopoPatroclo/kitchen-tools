@@ -8,6 +8,11 @@ const otherParams = process.argv.slice(2, process.argv.length)
 
 const collectionJsonPath = resolve(join(__dirname, 'collection.json'))
 
+if (!shemName) {
+  console.error('Error: Provide an action parameter, run bake-help for help')
+  process.exit(1)
+}
+
 spawnSync(
   resolve(
     join(

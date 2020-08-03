@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json --watch",
-    "test": "npm run build && jasmine src/**/*_spec.js",
+    "test": "yarn run build && jasmine src/**/*_spec.js",
     "schematics": "schematics",
     "np": "np"
   },

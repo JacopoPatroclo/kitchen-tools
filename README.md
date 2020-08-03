@@ -6,7 +6,7 @@ Set of tools to generate and run docker-composes service oriented projects.
 
 You have to have installed docker and docker-compose on your machine
 
-Just run `npm i -G kitchen-tools`
+Just run `npm i -g kitchen-tools`
 
 # Documentation
 
