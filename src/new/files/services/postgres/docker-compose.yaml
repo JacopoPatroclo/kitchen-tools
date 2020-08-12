@@ -1,10 +1,10 @@
 version: '3.5'
 
 volumes: 
-  - postgres_data_<%= name %>
+  postgres_data_<%= name %>:
 
 networks: 
-  - postgres_<%= name %>_network
+  postgres_<%= name %>_network:
 
 services:
   <%= name %>:
@@ -16,8 +16,8 @@ services:
     networks: 
       - postgres_<%= name %>_network
     volumes: 
-      - ./services/<%= name %>/src:/docker-entrypoint-initdb.d
-      - ./services/<%= name %>/docker/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./services/<%= name %>/src/initdb:/docker-entrypoint-initdb.d
+      - ./services/<%= name %>/docker/postgresql:/etc/postgresql
       - postgres_data_<%= name %>:/var/lib/postgresql/data
     environment: 
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

@@ -1,0 +1,27 @@
+version: '3.5'
+
+volumes: 
+  mysql_data_<%= name %>:
+
+networks: 
+  mysql_<%= name %>_network:
+
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    build: 
+      context: ./services/<%= name %>
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./services/<%= name %>/src/initdb:/docker-entrypoint-initdb.d
+      - mysql_data_<%= name %>:/var/lib/mysql
+    networks:
+      - mysql_<%= name %>_network
+    environment: 
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes

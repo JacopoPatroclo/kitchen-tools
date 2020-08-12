@@ -2,14 +2,14 @@ import { ServiceDescriptor } from "../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 
-const serviceTiplogy = 'nginx'
+const serviceTiplogy = 'mysql'
 
-export function NginxService(_context: any): ServiceDescriptor {
+export function mysqlService(_context: any): ServiceDescriptor {
   if (!_context?.name) {
     throw new Error("Missing name as a parameter");
   }
 
-  const templates = url("./files/services/nginx");
+  const templates = url("./files/services/mysql");
 
   return {
     json: {
@@ -17,8 +17,8 @@ export function NginxService(_context: any): ServiceDescriptor {
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy
     },
-    templates: apply(templates, [template({ fpmIndexService: null, fpmService: null, proxyPass: null, ..._context, ...strings })]),
+    templates: apply(templates, [template({ fpmService: null, proxyPass: null, ..._context, ...strings })]),
   };
 }
 
-NginxService.tipology = serviceTiplogy
+mysqlService.tipology = serviceTiplogy

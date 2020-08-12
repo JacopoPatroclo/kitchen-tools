@@ -1,3 +1,5 @@
+import { mysqlService } from "./services/mysqlService";
+import { wordpressService } from "./services/wordpressService";
 import { postgresService } from "./services/postgresService";
 
 import { Service } from "../../shared/helpers/ConfigurationHelper";
@@ -7,7 +9,7 @@ import { CustomService } from "./services/CustomService";
 import { Php7Service } from "./services/Php7Service";
 import { NginxService } from "./services/NginxService";
 
-const services = [NodeService, Php7Service, NginxService, postgresService /*ADDNEWSERVICE*/];
+const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService /*ADDNEWSERVICE*/];
 
 export interface ServiceDescriptor {
   json: Service;

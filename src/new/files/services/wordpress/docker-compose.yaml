@@ -1,0 +1,27 @@
+version: '3.5'
+
+networks:
+    <%= name %>_net:
+
+volumes: 
+    fpm_share_code:
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    build: 
+        context: ./services/<%= name %>
+        dockerfile: ./docker/Dockerfile
+    volumes: 
+        - fpm_share_code:/usr/site/public
+        - ./services/<%= name %>/src:/usr/site/public
+    networks: 
+        - <%= name %>_net
+        - <%= dbNetwork %>
+    environment:
+        - PHP_ENV=${PHP_ENV}
+        - MYSQL_HOST=<%= hostnameDb %>
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_DB=${MYSQL_DB}
