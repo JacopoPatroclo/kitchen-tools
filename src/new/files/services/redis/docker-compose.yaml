@@ -1,0 +1,21 @@
+version: '3.5'
+
+volumes: 
+  rediss_data_<%= name %>:
+
+networks: 
+  rediss_<%= name %>_network:
+
+services:
+  <%= name %>:
+    image: ${REGISTRY}<%= name %>:latest
+    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    build: 
+      context: ./services/<%= name %>
+      dockerfile: ./docker/Dockerfile
+    volumes: 
+      - rediss_data_<%= name %>:/data
+    networks:
+      - rediss_<%= name %>_network
+    environment: 
+      - REDIS_PASSWORD=${REDIS_PASSWORD}

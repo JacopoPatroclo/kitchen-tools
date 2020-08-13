@@ -1,3 +1,4 @@
+import { redisService } from "./services/redisService";
 import { mongoService } from "./services/mongoService";
 import { mysqlService } from "./services/mysqlService";
 import { wordpressService } from "./services/wordpressService";
@@ -10,7 +11,7 @@ import { CustomService } from "./services/CustomService";
 import { Php7Service } from "./services/Php7Service";
 import { NginxService } from "./services/NginxService";
 
-const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService , mongoService /*ADDNEWSERVICE*/];
+const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService , mongoService , redisService /*ADDNEWSERVICE*/];
 
 export interface ServiceDescriptor {
   json: Service;
