@@ -27,7 +27,8 @@ export function wordpressService(_context: any): ServiceDescriptor {
           options: {
             name: nginxServiceName,
             fpmService: `${_context.name}`,
-            fpmServicePort: 9000
+            fpmServicePort: 9000,
+            fpmCodePath: '/usr/site/public'
           }
         },
         {

@@ -10,8 +10,9 @@ import { NodeService } from "./services/NodeService";
 import { CustomService } from "./services/CustomService";
 import { Php7Service } from "./services/Php7Service";
 import { NginxService } from "./services/NginxService";
+import { LaravelService } from "./services/laravelService";
 
-const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService , mongoService , redisService /*ADDNEWSERVICE*/];
+const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService , mongoService , redisService, LaravelService /*ADDNEWSERVICE*/];
 
 export interface ServiceDescriptor {
   json: Service;

@@ -17,7 +17,7 @@ export function NginxService(_context: any): ServiceDescriptor {
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy
     },
-    templates: apply(templates, [template({ fpmIndexService: null, fpmService: null, proxyPass: null, ..._context, ...strings })]),
+    templates: apply(templates, [template({ fpmCodePath: '/usr/site/public', fpmIndexService: null, fpmService: null, proxyPass: null, ..._context, ...strings })]),
   };
 }
 

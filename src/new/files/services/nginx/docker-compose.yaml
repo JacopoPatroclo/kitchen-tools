@@ -20,9 +20,9 @@ services:
         dockerfile: ./docker/Dockerfile
     volumes: 
         <% if(fpmService) {
-        %>- fpm_share_code:/usr/site/public
-        - ./services/<%= fpmService %>/src:/usr/site/public<% }
-        else { %>- ./services/<%= name %>/src:/usr/site/public<% } %>
+        %>- fpm_share_code:<%= fpmCodePath %>
+        - ./services/<%= fpmService %>/src:<%= fpmCodePath %><% }
+        else { %>- ./services/<%= name %>/src:<%= fpmCodePath %><% } %>
     environment: 
         - VIRTUAL_HOST=<%= fpmService || proxyPass %>
     networks:
