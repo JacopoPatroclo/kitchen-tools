@@ -3,7 +3,7 @@
 import { ConfigurationHelper } from "./shared/helpers/ConfigurationHelper";
 import { spawnSync } from "child_process";
 import { join, resolve } from "path";
-import { readFileSync, writeFileSync,  } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { safeLoad } from "js-yaml";
 
 let workspaceConfig: any = {}
@@ -18,30 +18,27 @@ const envFilePath = resolve(join(process.cwd(), '.env.example'))
 
 const config = new ConfigurationHelper(JSON.stringify(workspaceConfig))
 
-console.log(`Starting project ${config.projectName}`)
-
 const dockerFilesList = config.services.map(service => `-f ${service.dcompose}`)
 
-try {
-  readFileSync(envFilePath)
-} catch (error) {
-  if (error.code === 'ENOENT') {
-    const envFile = config.services
-    .map(service => {
-      const pathDc = join(process.cwd(), service.dcompose)
-      const fileContent = readFileSync(pathDc).toString()
-      const parsedDc = safeLoad(fileContent) as any
-      return parsedDc?.services[service.name]?.environment || []
-    })
-    .reduce((acc, newEnvs) => [...acc, ...newEnvs], [])
-    // Filter out all the fixed values
-    .filter((env: string) => !!env.match(/\$\{/g))
-    .join('\n')
+if (process.argv[2] === 'env') {
+  const envFile = config.services
+  .map(service => {
+    const pathDc = join(process.cwd(), service.dcompose)
+    const fileContent = readFileSync(pathDc).toString()
+    const parsedDc = safeLoad(fileContent) as any
+    return parsedDc?.services[service.name]?.environment || []
+  })
+  .reduce((acc, newEnvs) => [...acc, ...newEnvs], [])
+  // Filter out all the fixed values
+  .filter((env: string) => !!env.match(/\$\{/g))
+  .join('\n')
 
-    writeFileSync(envFilePath, envFile)
-    console.log('Created an example.env file from do')
-  }
+  writeFileSync(envFilePath, envFile)
+  console.log('Created an example.env file from the project services')
+  process.exit(0)
 }
+
+console.log(`Starting project ${config.projectName}`)
 
 spawnSync(
   `docker-compose`,

@@ -3,12 +3,12 @@
 import { spawnSync } from "child_process";
 import { join, resolve } from "path";
 
-const shemName = process.argv[2]
+const schemName = process.argv[2]
 const otherParams = process.argv.slice(2, process.argv.length)
 
 const collectionJsonPath = resolve(join(__dirname, 'collection.json'))
 
-if (!shemName) {
+if (!schemName) {
   console.error('Error: Provide an action parameter, run bake-help for help')
   process.exit(1)
 }
@@ -23,7 +23,7 @@ spawnSync(
       "schematics"
     )
   ),
-  [`${collectionJsonPath}:${shemName}`, '--debug=false', ...otherParams],
+  [`${collectionJsonPath}:${schemName}`, '--debug=false', ...otherParams],
   {
     env: process.env,
     shell: true,
