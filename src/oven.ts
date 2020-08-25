@@ -79,6 +79,6 @@ spawnSync(
       ...workspaceConfig.env,
       ...process.env,
     },
-    stdio: 'inherit',
+    stdio:  [ process.stdin, process.stdout, process.stderr ],
   }
 );

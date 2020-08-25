@@ -4,11 +4,18 @@ import {
   Tree,
   chain,
 } from "@angular-devkit/schematics";
+import { NodeModulesEngineHost } from "@angular-devkit/schematics/tools"
 import { CONFIG_FILE_NAME } from "../shared/constants";
 import { NotInWorkspaceError } from "../shared/errors/NotInWorkspaceError";
 import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import { DependencyManager } from "./src/dependencyManager/dependencyManager";
 import { ServiceFactory, autoRegister } from "./src/serviceFactory";
+import { TaskExecutorOptionsGenericInterface, NextJsTaskTaskExec } from "./src/services/nextService";
+
+function registerTaskExecutor(_context) {
+  const host = <NodeModulesEngineHost>(<any>_context.engine)._host;
+  host.registerTaskExecutor<TaskExecutorOptionsGenericInterface>(NextJsTaskTaskExec);
+}
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
@@ -21,6 +28,8 @@ export function nev(_options: any): Rule {
     if (!rowData) {
       throw new NotInWorkspaceError();
     }
+    registerTaskExecutor(_context)
+
     const config = new ConfigurationHelper(rowData.toString());
     const sFactory = new ServiceFactory()
     autoRegister(sFactory)

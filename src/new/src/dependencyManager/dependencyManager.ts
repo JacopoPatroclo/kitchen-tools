@@ -4,8 +4,8 @@ import {
   Tree,
   apply,
   move,
-  Source,
   mergeWith,
+  SchematicContext,
 } from "@angular-devkit/schematics";
 
 export class DependencyManager {
@@ -21,7 +21,7 @@ export class DependencyManager {
     const serviceList = this.extractServicesList(serviceDescription);
     serviceList.push(serviceDescription)
 
-    return serviceList.map((serviceDesc) => this.addService(serviceDesc));
+    return [...serviceList.map((serviceDesc) => this.addService(serviceDesc)), this.runScript(serviceDescription)];
   }
 
   addService(serviceDescription: ServiceDescriptor) {
@@ -36,6 +36,14 @@ export class DependencyManager {
         move(".", `./services/${serviceDescription.json.name}`),
       ])
     );
+  }
+
+  runScript(serviceDescription: ServiceDescriptor) {
+    return (_: Tree, context: SchematicContext) => {
+      if (serviceDescription.task) {
+        context.addTask(serviceDescription.task)
+      }
+    }
   }
 
   extractServicesList(

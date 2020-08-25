@@ -6,7 +6,7 @@ import { wordpressService } from "./services/wordpressService";
 import { postgresService } from "./services/postgresService";
 
 import { Service } from "../../shared/helpers/ConfigurationHelper";
-import { Source } from "@angular-devkit/schematics";
+import { Source, TaskConfigurationGenerator } from "@angular-devkit/schematics";
 import { NodeService } from "./services/NodeService";
 import { CustomService } from "./services/CustomService";
 import { Php7Service } from "./services/Php7Service";
@@ -18,6 +18,7 @@ const services = [NodeService, Php7Service, NginxService, postgresService , word
 export interface ServiceDescriptor {
   json: Service;
   templates: Source;
+  task?: TaskConfigurationGenerator
 }
 
 type FunctionServiceDescriptor = (context: any) => ServiceDescriptor;
