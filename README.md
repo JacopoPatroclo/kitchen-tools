@@ -23,6 +23,8 @@ oven: It help starting the project, under the hood it uses docker-compose. Infac
 
 - To start the project: ```oven up```
 - To buil the containers: ```oven build```
+- To generate an example .env file ```oven env```
+- To get an host file configuration ```oven host```
 
 bake-help: Show a help page
 
