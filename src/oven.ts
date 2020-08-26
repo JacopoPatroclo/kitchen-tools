@@ -63,8 +63,6 @@ if (process.argv[2] === "host") {
   process.exit(0);
 }
 
-console.log(`Starting project ${config.projectName}`);
-
 spawnSync(
   `docker-compose`,
   [
