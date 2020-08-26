@@ -31,3 +31,14 @@ All the code is contained inside `/src`, here you can find `bake.ts` `help.ts` `
 - service: It's an internal schematics that helps the generation of internal service templates.
 
 - shared: This directory gather all the shared modules that all the schematics use.
+
+## Develop new services
+
+After you run the `yarn schematics .:service --name=testme --debug=false` schematics you can see that this process have changed some files. First inside `src/new/src/services` a new service.ts file has been created.
+The purpose of this file is to export a function that return a `ServiceDescriptor`. This object is used to generate the service boilerplate. The main parts are:
+
+1. tson: The options that are stored inside the `wkspace.json` that describe where the docker-compose file is located and the type of the service, as well as the name. There are no restriction to the nodes that you are going to store there, outside the present of name, dcompose, type and if is needed depends. This node describe the services that are needed in order to work properly. For example a laravel application need a database and an nginx in order to run php through the fpm interface. You can describe the type of service and the configuration that is needed to that service in order to be setted up properly. Look at the laravel service for some context. The dependency structure can be as deep as needed but there are not check for circular dependency, so watch out and keep the dependency tree as flat as possible.
+
+2. templates: Here all the `Source` object must be provided. Those are the angular schematic way to describe the changes that must be applyed to the filesystem. The default schematic generation already help you by using all the files inside `src/new/files/services/${service_name}` as templates.
+
+3. tasks: This node is not required, and it's rappresent the list of tasks that can be runned after the schematic has been executed. This tasks are orchestrated using a not public api from the `@angular-devkit/schematics` package. Going a little bit into details, you should create two things: the first is a class that implements `TaskConfigurationGenerator` interface, the second is an object of type `TaskExecutorFactory`. Basically the factory tells the schematics how to generate the task and the class expose a standard way to declare the configurations passed to the task execution (that is a simple async function). This library expose a generic task executor, see `genericTaskExecutor.ts`, you can use this function to execute a script or a command. Form more complex stuff you shoul develop a custom one. To see an example of all of this look at the next.js service.
