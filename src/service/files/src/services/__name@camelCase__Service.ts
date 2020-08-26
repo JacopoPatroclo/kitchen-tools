@@ -17,7 +17,7 @@ export function <%= camelCase(name) %>Service(_context: any): ServiceDescriptor 
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy
     },
-    templates: apply(templates, [template({ fpmService: null, proxyPass: null, ..._context, ...strings })]),
+    templates: apply(templates, [template({ ..._context, ...strings })]),
   };
 }
 

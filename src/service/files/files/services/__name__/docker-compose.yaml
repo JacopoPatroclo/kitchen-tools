@@ -2,13 +2,13 @@ version: '3.5'
 
 networks:
   proxy:
-    external:
-      name: tier_1
+    name: tier_1
 
 services:
   <%= templateName %>:
     image: ${REGISTRY}<%= templateName %>:latest
     container_name: $COMPOSE_PROJECT_NAME.<%= templateName %>
+    restart: unless-stopped
     build: 
       context: ./services/<%= templateName %>
       dockerfile: ./docker/Dockerfile

@@ -2,8 +2,7 @@ version: '3.5'
 
 networks:
   proxy:
-    external:
-      name: tier_1
+    name: tier_1
 
 services:
   <%= templateName %>:

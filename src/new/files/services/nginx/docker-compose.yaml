@@ -15,6 +15,7 @@ services:
   <%= name %>:
     image: ${REGISTRY}<%= name %>:latest
     container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    restart: unless-stopped
     build: 
         context: ./services/<%= name %>
         dockerfile: ./docker/Dockerfile
