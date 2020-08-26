@@ -59,10 +59,10 @@ export function nextService(_context: any): ServiceDescriptor {
       type: serviceTiplogy,
     },
     templates: apply(templates, [template({ ..._context, ...strings })]),
-    task: new NextJsTask(
+    tasks: [new NextJsTask(
       resolve(join(process.cwd(), "services", _context.name)),
       _context
-    ),
+    )],
   };
 }
 

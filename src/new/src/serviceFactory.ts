@@ -18,7 +18,7 @@ const services = [NodeService, Php7Service, NginxService, postgresService , word
 export interface ServiceDescriptor {
   json: Service;
   templates: Source;
-  task?: TaskConfigurationGenerator
+  tasks?: Array<TaskConfigurationGenerator>
 }
 
 type FunctionServiceDescriptor = (context: any) => ServiceDescriptor;

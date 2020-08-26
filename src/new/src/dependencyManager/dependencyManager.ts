@@ -41,8 +41,8 @@ export class DependencyManager {
 
   runScript(serviceDescription: ServiceDescriptor): Rule {
     return (_: Tree, context: SchematicContext) => {
-      if (serviceDescription.task) {
-        context.addTask(serviceDescription.task)
+      if (serviceDescription.tasks) {
+        serviceDescription.tasks.forEach(task => context.addTask(task))
       }
     }
   }
