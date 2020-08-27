@@ -1,6 +1,6 @@
 {
   "name": "kitchen-tools",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Tool to manage monorepo with service oriented architecture based on docker and docker-compose",
   "bin": {
     "bake": "./src/bake.js",
