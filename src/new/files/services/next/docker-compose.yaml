@@ -1,4 +1,4 @@
-version: '3.5'
+version: "3.5"
 
 networks:
   proxy:
@@ -7,16 +7,16 @@ networks:
 services:
   <%= name %>:
     image: ${REGISTRY}<%= name %>:latest
-    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    container_name: ${COMPOSE_PROJECT_NAME}.<%= name %>
     restart: unless-stopped
-    build: 
+    build:
       context: ./services/<%= name %>
       dockerfile: ./docker/Dockerfile
-    environment: 
+    environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=9000
       - VIRTUAL_HOST=<%= name %>
-    volumes: 
+    volumes:
       - ./services/<%= name %>/src:/app
     networks:
       - proxy

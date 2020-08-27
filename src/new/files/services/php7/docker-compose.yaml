@@ -1,23 +1,23 @@
-version: '3.5'
+version: "3.5"
 
 networks:
-    <%= name %>_net:
+  <%= name %>_net:
 
-volumes: 
-    fpm_share_code:
+volumes:
+  fpm_share_code:
 
 services:
   <%= name %>:
     image: ${REGISTRY}<%= name %>:latest
-    container_name: $COMPOSE_PROJECT_NAME.<%= name %>
+    container_name: ${COMPOSE_PROJECT_NAME}.<%= name %>
     restart: unless-stopped
-    build: 
-        context: ./services/<%= name %>
-        dockerfile: ./docker/Dockerfile
-    volumes: 
-        - fpm_share_code:/usr/site/public
-        - ./services/<%= name %>/src:/usr/site/public
-    networks: 
-        - <%= name %>_net
+    build:
+      context: ./services/<%= name %>
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - fpm_share_code:/usr/site/public
+      - ./services/<%= name %>/src:/usr/site/public
+    networks:
+      - <%= name %>_net
     environment:
-        - PHP_ENV=${PHP_ENV}
+      - PHP_ENV=${PHP_ENV}

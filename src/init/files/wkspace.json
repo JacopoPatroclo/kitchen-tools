@@ -1,8 +1,8 @@
 {
-    "name": "<%= name %>",
-    "services": [],
-    "env": {
-        "REGISTRY": "",
-        "COMPOSE_PROJECT_NAME": "<%= name %>"
-    }
+  "name": "<%= name %>",
+  "services": [],
+  "env": {
+    "REGISTRY": "<%= registry %>/",
+    "COMPOSE_PROJECT_NAME": "<%= name %>"
+  }
 }

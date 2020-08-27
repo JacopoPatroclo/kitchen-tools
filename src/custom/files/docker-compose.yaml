@@ -1,4 +1,4 @@
-version: '3.5'
+version: "3.5"
 
 networks:
   proxy:
@@ -7,11 +7,11 @@ networks:
 services:
   <%= templateName %>:
     image: ${REGISTRY}<%= templateName %>:latest
-    container_name: $COMPOSE_PROJECT_NAME.<%= templateName %>
-    build: 
+    container_name: ${COMPOSE_PROJECT_NAME}.<%= templateName %>
+    build:
       context: ./services/<%= templateName %>
       dockerfile: ./docker/Dockerfile
-    volumes: 
+    volumes:
       - ./services/<%= templateName %>/src:/app
     networks:
       - proxy

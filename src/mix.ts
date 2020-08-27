@@ -6,16 +6,10 @@ import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { merge } from "lodash";
 import { spawnSync } from "child_process";
+import { KOMPOSE_FILENAME } from "./shared/constants";
 
-const platform = process.platform;
 const komposePath = resolve(
-  join(
-    __dirname,
-    "..",
-    "bin",
-    "kompose",
-    `kompose-${platform === "win32" ? `${platform}.exe` : platform}`
-  )
+  join(__dirname, "..", "bin", "kompose", KOMPOSE_FILENAME)
 );
 
 let workspaceConfig = null;
@@ -68,7 +62,7 @@ const dockerComposes = config.services.map((service) => {
         if (conf.depends_on.length <= 0) {
           delete conf.depends_on;
         }
-        return { ...dc, config: conf };
+        return { ...dc, config: sostituteEnv(conf, config) };
       })
       .reduce((acc, obj) => ({ ...acc, [obj.key]: obj.config }), {}),
   };
@@ -94,7 +88,7 @@ spawnSync(
     "convert",
     "-f",
     dockerComposeProdPath,
-    '-o kube.yml',
+    "-o kube.yml",
     ...process.argv.slice(2, process.argv.length),
   ],
   {
@@ -106,3 +100,19 @@ spawnSync(
     stdio: [process.stdin, process.stdout, process.stderr],
   }
 );
+
+function sostituteEnv(conf, wconfig: ConfigurationHelper) {
+  if (conf.image) {
+    conf.image = (conf.image as string).replace(
+      "${REGISTRY}",
+      wconfig.env.REGISTRY
+    );
+  }
+  if (conf.container_name) {
+    conf.container_name = (conf.container_name as string).replace(
+      "${COMPOSE_PROJECT_NAME}",
+      wconfig.env.COMPOSE_PROJECT_NAME
+    );
+  }
+  return conf;
+}
