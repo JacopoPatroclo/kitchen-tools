@@ -9,19 +9,14 @@ import {
 } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 import { resolve, join } from "path";
+import { TaskExecutorGenericOptionsInterface } from "../../../shared/tasks/taskExecutor/genericTaskExecutor";
 
 export const NextJsTaskName = "next-task-name";
-
-export interface TaskExecutorOptionsGenericInterface {
-  command: string;
-  workingDirectory: string;
-  args: string[];
-}
 
 class NextJsTask implements TaskConfigurationGenerator {
   constructor(private workingDirectory: string, private _context) {}
 
-  toConfiguration(): TaskConfiguration<TaskExecutorOptionsGenericInterface> {
+  toConfiguration(): TaskConfiguration<TaskExecutorGenericOptionsInterface> {
     const example =
       this._context.example || "with-typescript-styled-components";
     return {
@@ -29,18 +24,18 @@ class NextJsTask implements TaskConfigurationGenerator {
       options: {
         command: "npx",
         args: ["create-next-app", "--example", example, "src"],
-        workingDirectory: this.workingDirectory
+        workingDirectory: this.workingDirectory,
       },
     };
   }
 }
 
-export const NextJsTaskTaskExec: TaskExecutorFactory<TaskExecutorOptionsGenericInterface> = {
+export const NextJsTaskTaskExec: TaskExecutorFactory<TaskExecutorGenericOptionsInterface> = {
   name: NextJsTaskName,
   create: (options) =>
-    import("../taskExecutor/genericTaskExecutor").then((mod) =>
-      mod.default(options)
-    ),
+    import(
+      "../../../shared/tasks/taskExecutor/genericTaskExecutor"
+    ).then((mod) => mod.default(options)),
 };
 
 const serviceTiplogy = "next";
@@ -59,10 +54,12 @@ export function nextService(_context: any): ServiceDescriptor {
       type: serviceTiplogy,
     },
     templates: apply(templates, [template({ ..._context, ...strings })]),
-    tasks: [new NextJsTask(
-      resolve(join(process.cwd(), "services", _context.name)),
-      _context
-    )],
+    tasks: [
+      new NextJsTask(
+        resolve(join(process.cwd(), "services", _context.name)),
+        _context
+      ),
+    ],
   };
 }
 

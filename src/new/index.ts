@@ -4,18 +4,17 @@ import {
   Tree,
   chain,
 } from "@angular-devkit/schematics";
-import { NodeModulesEngineHost } from "@angular-devkit/schematics/tools"
+
 import { CONFIG_FILE_NAME } from "../shared/constants";
 import { NotInWorkspaceError } from "../shared/errors/NotInWorkspaceError";
 import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import { DependencyManager } from "./src/dependencyManager/dependencyManager";
 import { ServiceFactory, autoRegister } from "./src/serviceFactory";
-import { TaskExecutorOptionsGenericInterface, NextJsTaskTaskExec } from "./src/services/nextService";
+import { NextJsTaskTaskExec } from "./src/services/nextService";
+import registerTaskExecutor from "../shared/tasks/helpers/schematicTaskExecutorRegister";
 
-function registerTaskExecutor(_context) {
-  const host = <NodeModulesEngineHost>(<any>_context.engine)._host;
-  host.registerTaskExecutor<TaskExecutorOptionsGenericInterface>(NextJsTaskTaskExec);
-}
+// Here you can register all the task executors
+const tasksExecutors = [NextJsTaskTaskExec];
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
@@ -28,13 +27,13 @@ export function nev(_options: any): Rule {
     if (!rowData) {
       throw new NotInWorkspaceError();
     }
-    registerTaskExecutor(_context)
+    registerTaskExecutor(_context, tasksExecutors);
 
     const config = new ConfigurationHelper(rowData.toString());
-    const sFactory = new ServiceFactory()
-    autoRegister(sFactory)
-    const manager = new DependencyManager(config, sFactory)
-    const ruleList = manager.resolve(_options.tipology, _options)
+    const sFactory = new ServiceFactory();
+    autoRegister(sFactory);
+    const manager = new DependencyManager(config, sFactory);
+    const ruleList = manager.resolve(_options.tipology, _options);
 
     tree.overwrite(`./${CONFIG_FILE_NAME}`, config.serialize());
 
