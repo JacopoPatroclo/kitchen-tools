@@ -25,6 +25,7 @@
     "docker-compose"
   ],
   "author": "Jacopo Martinelli <jacopo.patroclo.martinelli@gmail.com> (https://github.com/JacopoPatroclo)",
+  "repository": "https://github.com/JacopoPatroclo/kitchen-tools",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
