@@ -25,4 +25,4 @@ services:
       - MYSQL_HOST=<%= hostnameDb %>
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_DB=${MYSQL_DB}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
