@@ -12,9 +12,10 @@ import { DependencyManager } from "./src/dependencyManager/dependencyManager";
 import { ServiceFactory, autoRegister } from "./src/serviceFactory";
 import { NextJsTaskTaskExec } from "./src/services/nextService";
 import registerTaskExecutor from "../shared/tasks/helpers/schematicTaskExecutorRegister";
+import { CRAJsTaskTaskExec } from "./src/services/craService";
 
 // Here you can register all the task executors
-const tasksExecutors = [NextJsTaskTaskExec];
+const tasksExecutors = [NextJsTaskTaskExec, CRAJsTaskTaskExec];
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.

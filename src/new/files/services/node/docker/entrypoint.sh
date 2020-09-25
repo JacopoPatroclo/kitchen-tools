@@ -2,10 +2,6 @@
 
 set -e
 
-if [ ! -d "node_modules" ] 
-then
-    echo 'Missing dependency, installing'
-    npm install
-fi
+npm install
 
 node server.js

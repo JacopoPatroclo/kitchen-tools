@@ -1,3 +1,8 @@
+import { readFileSync } from "fs";
+import { join } from "path";
+import { CONFIG_FILE_NAME } from "../constants";
+import { NotInWorkspaceError } from "../errors/NotInWorkspaceError";
+
 export interface DependentService {
   type: string;
   options: {
@@ -45,10 +50,18 @@ export class ConfigurationHelper {
     return true;
   }
 
-  hasService(serv: Service): boolean {
-    return !!this.confObject.services.find(
-      (service) => service.name === serv.name
-    );
+  hasService(serv: string | Service): boolean {
+    return !!this.confObject.services.find((service) => {
+      if (typeof serv === "string") {
+        return service.name === serv;
+      } else {
+        return service.name === serv.name;
+      }
+    });
+  }
+
+  getService(name: string) {
+    return this.confObject.services.find((service) => service.name === name);
   }
 
   get env() {
@@ -62,4 +75,18 @@ export class ConfigurationHelper {
   get projectName() {
     return this.confObject.name;
   }
+}
+
+export function makeConfiguratorFacade() {
+  const basePath = process?.cwd();
+  if (basePath) {
+    const pathConfig = join(basePath, CONFIG_FILE_NAME);
+    try {
+      const config = readFileSync(pathConfig).toString();
+      return new ConfigurationHelper(config);
+    } catch (error) {
+      throw new NotInWorkspaceError();
+    }
+  }
+  throw new Error("Unable to find basepath, you are in NodeJS context right?");
 }

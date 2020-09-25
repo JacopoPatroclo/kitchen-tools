@@ -2,11 +2,7 @@
 
 set -e
 
-if [ ! -d "node_modules" ] 
-then
-    echo 'Missing dependency, installing'
-    npm install
-fi
+npm install
 
 if [ "$NODE_ENV" = "production" ] 
 then

@@ -6,7 +6,7 @@ import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { merge } from "lodash";
 import { spawnSync } from "child_process";
-import { KOMPOSE_FILENAME } from "./shared/constants";
+import { CONFIG_FILE_NAME, KOMPOSE_FILENAME } from "./shared/constants";
 
 const komposePath = resolve(
   join(__dirname, "..", "bin", "kompose", KOMPOSE_FILENAME)
@@ -14,7 +14,7 @@ const komposePath = resolve(
 
 let workspaceConfig = null;
 try {
-  workspaceConfig = require(resolve(join(process.cwd(), "wkspace.json")));
+  workspaceConfig = require(resolve(join(process.cwd(), CONFIG_FILE_NAME)));
 } catch (error) {
   console.error(
     "Unable to load wkspace.json, are you sure you are in the correct directory"
