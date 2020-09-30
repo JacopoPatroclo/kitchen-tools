@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import { ConfigurationHelper } from "./shared/helpers/ConfigurationHelper";
+import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import * as yaml from "js-yaml";
 import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { merge } from "lodash";
 import { spawnSync } from "child_process";
-import { CONFIG_FILE_NAME, KOMPOSE_FILENAME } from "./shared/constants";
+import { CONFIG_FILE_NAME, KOMPOSE_FILENAME } from "../shared/constants";
 
 const komposePath = resolve(
   join(__dirname, "..", "bin", "kompose", KOMPOSE_FILENAME)

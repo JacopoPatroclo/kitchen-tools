@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import { ConfigurationHelper } from "./shared/helpers/ConfigurationHelper";
+import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import { spawnSync } from "child_process";
 import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { safeLoad } from "js-yaml";
-import { distinct, parseWithEnv } from "./shared/helpers/Utils";
-import { CONFIG_FILE_NAME } from "./shared/constants";
+import { distinct, parseWithEnv } from "../shared/helpers/Utils";
+import { CONFIG_FILE_NAME } from "../shared/constants";
 
 let workspaceConfig: any = {};
 try {

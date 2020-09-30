@@ -3,10 +3,11 @@
   "version": "0.6.1",
   "description": "Tool to manage monorepo with service oriented architecture based on docker and docker-compose",
   "bin": {
-    "bake": "./src/bake.js",
-    "oven": "./src/oven.js",
-    "bake-mix": "./src/mix.js",
-    "bake-help": "./src/help.js"
+    "bake": "./src/cli/bake.js",
+    "oven": "./src/cli/oven.js",
+    "bake-mix": "./src/cli/mix.js",
+    "bake-run": "./src/cli/run.js",
+    "bake-help": "./src/cli/help.js"
   },
   "scripts": {
     "postinstall": "npm run install:kompose",
