@@ -1,5 +1,5 @@
 <?php
-
+require_once dirname(__DIR__) . '/public/vendor/autoload.php';
 /**
  * The base configuration for WordPress
  *
@@ -84,8 +84,16 @@ define('WP_DEBUG', $_ENV['PHP_ENV'] !== 'production');
 
 /** Absolute path to the WordPress directory. */
 if (!defined('ABSPATH')) {
-	define('ABSPATH', __DIR__ . '/');
+	define('ABSPATH', __DIR__ . '/wp/');
 }
+
+$siteuri = $_ENV['HTTP_X_FORWARDED_PROTO'] . '://' . $_ENV['HTTP_HOST'];
+
+define('WP_CONTENT_DIR', dirname(__FILE__) . '/wp-content');
+define('WP_CONTENT_URL', $siteuri . '/wp-content');
+
+define('WP_HOME', $siteuri);
+define('WP_SITEURL', $siteuri . '/wp');
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';

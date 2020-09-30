@@ -2,7 +2,7 @@ import { ServiceDescriptor } from "../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 
-const serviceTiplogy = 'wordpress'
+const serviceTiplogy = "wordpress";
 
 export function wordpressService(_context: any): ServiceDescriptor {
   if (!_context?.name) {
@@ -11,10 +11,9 @@ export function wordpressService(_context: any): ServiceDescriptor {
 
   const templates = url("./files/services/wordpress");
 
-  const nginxServiceName = `${_context.name}_wordpress_nginx`
-  const mysqlServiceName = `${_context.name}_wordpress_mysql`
+  const mysqlServiceName = `${_context.name}_wordpress_mysql`;
 
-  const dbNetwork = `mysql_${mysqlServiceName}_network`
+  const dbNetwork = `mysql_${mysqlServiceName}_network`;
 
   return {
     json: {
@@ -23,24 +22,22 @@ export function wordpressService(_context: any): ServiceDescriptor {
       type: serviceTiplogy,
       depends: [
         {
-          type: 'nginx',
-          options: {
-            name: nginxServiceName,
-            fpmService: `${_context.name}`,
-            fpmServicePort: 9000,
-            fpmCodePath: '/usr/site/public'
-          }
-        },
-        {
-          type: 'mysql',
+          type: "mysql",
           options: {
             name: mysqlServiceName,
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
-    templates: apply(templates, [template({ hostnameDb: mysqlServiceName, dbNetwork, ..._context, ...strings })]),
+    templates: apply(templates, [
+      template({
+        hostnameDb: mysqlServiceName,
+        dbNetwork,
+        ..._context,
+        ...strings,
+      }),
+    ]),
   };
 }
 
-wordpressService.tipology = serviceTiplogy
+wordpressService.tipology = serviceTiplogy;

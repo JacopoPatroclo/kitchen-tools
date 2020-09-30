@@ -2,9 +2,13 @@ version: "3.5"
 
 networks:
   <%= name %>_net:
+  <%= dbNetwork %>:
+  proxy:
+    external:
+      name: tier_1
 
 volumes:
-  fpm_share_code:
+  <%= name %>_fpm_share_code:
 
 services:
   <%= name %>:
@@ -13,16 +17,36 @@ services:
     restart: unless-stopped
     build:
       context: ./services/<%= name %>
-      dockerfile: ./docker/Dockerfile
+      dockerfile: ./docker/php/Dockerfile
     volumes:
-      - fpm_share_code:/usr/site/public
+      - <%= name %>_fpm_share_code:/usr/site/public
       - ./services/<%= name %>/src:/usr/site/public
     networks:
       - <%= name %>_net
       - <%= dbNetwork %>
     environment:
       - PHP_ENV=${PHP_ENV}
-      - MYSQL_HOST=<%= hostnameDb %>
+      - MYSQL_HOST=<%= name %>_wordpress_mysql
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+
+  <%= name %>_entrypoint:
+    image: ${REGISTRY}<%= name %>_entrypoint:latest
+    container_name: ${COMPOSE_PROJECT_NAME}.<%= name %>_entrypoint
+    restart: unless-stopped
+    build:
+      context: ./services/<%= name %>
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - <%= name %>_fpm_share_code:/usr/site/public
+      - ./services/<%= name %>/src:/usr/site/public
+      - ./services/<%= name %>/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - <%= name %>_net
+      - proxy
+    environment:
+      - VIRTUAL_HOST=<%= name %>
+    depends_on:
+      - proxy
+      - <%= name %>
