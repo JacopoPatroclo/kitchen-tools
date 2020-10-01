@@ -1,7 +1,10 @@
 import { createWriteStream, WriteStream, chmodSync } from "fs";
-import { join } from "path";
-import { KOMPOSE_VERSION, KOMPOSE_FILENAME } from "../shared/constants";
-import { spawnSync } from "child_process";
+import {
+  KOMPOSE_VERSION,
+  KOMPOSE_FILENAME,
+  KOMPOSE_BIN,
+} from "../shared/constants";
+import { sync as spawnSync, spawn } from "cross-spawn";
 import axios from "axios";
 
 function fixPermission(pathToEx: string) {
@@ -9,10 +12,14 @@ function fixPermission(pathToEx: string) {
 }
 
 function testk(pathToEx: string) {
-  console.log(`Installed in ${pathToEx}`);
-  spawnSync(`${pathToEx}`, ["version"], {
-    stdio: [process.stdin, process.stdout, process.stderr],
-    shell: true,
+  return new Promise((res, rej) => {
+    const exec = spawn(`${pathToEx}`, ["version"], {
+      stdio: [process.stdin, process.stdout, null],
+      shell: true,
+    });
+    exec.on("exit", (code) => {
+      code !== 0 ? rej() : res();
+    });
   });
 }
 
@@ -26,20 +33,19 @@ function saveFile(path: string, file: WriteStream) {
 }
 
 async function main() {
-  console.log("Installing Kompose");
-  const komposeExecutableFile = join(
-    __dirname,
-    "..",
-    "..",
-    "bin",
-    "kompose",
-    KOMPOSE_FILENAME
-  );
+  const komposeExecutableFile = KOMPOSE_BIN;
+
+  try {
+    await testk(komposeExecutableFile);
+    console.log("Kompose already installed");
+    process.exit(0);
+  } catch (error) {}
+
   const file = createWriteStream(komposeExecutableFile);
   const githubPath = `https://github.com/kubernetes/kompose/releases/download/${KOMPOSE_VERSION}/${KOMPOSE_FILENAME}`;
   await saveFile(githubPath, file);
   fixPermission(komposeExecutableFile);
-  testk(komposeExecutableFile);
+  await testk(komposeExecutableFile);
 }
 
 main().then().catch(console.error);

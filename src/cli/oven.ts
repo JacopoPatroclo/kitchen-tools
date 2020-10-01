@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
-import { spawnSync } from "child_process";
+import { sync as spawnSync } from "cross-spawn";
 import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { safeLoad } from "js-yaml";

@@ -5,12 +5,8 @@ import * as yaml from "js-yaml";
 import { join, resolve } from "path";
 import { readFileSync, writeFileSync } from "fs";
 import { merge } from "lodash";
-import { spawnSync } from "child_process";
-import { CONFIG_FILE_NAME, KOMPOSE_FILENAME } from "../shared/constants";
-
-const komposePath = resolve(
-  join(__dirname, "..", "bin", "kompose", KOMPOSE_FILENAME)
-);
+import { sync as spawnSync } from "cross-spawn";
+import { CONFIG_FILE_NAME, KOMPOSE_BIN } from "../shared/constants";
 
 let workspaceConfig = null;
 try {
@@ -83,7 +79,7 @@ const mergedDockerCompose = dockerComposes.reduce(
 writeFileSync(dockerComposeProdPath, yaml.safeDump(mergedDockerCompose));
 
 spawnSync(
-  komposePath,
+  KOMPOSE_BIN,
   [
     "convert",
     "-f",

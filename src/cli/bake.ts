@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { spawnSync } from "child_process";
+import { sync as spawnSync } from "cross-spawn";
 import { join, resolve } from "path";
 
 const schemName = process.argv[2];
