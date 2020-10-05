@@ -1,8 +1,8 @@
-import { ServiceDescriptor } from "../serviceFactory";
+import { ServiceDescriptor } from "../../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 
-const serviceTiplogy = 'redis'
+const serviceTiplogy = "redis";
 
 export function redisService(_context: any): ServiceDescriptor {
   if (!_context?.name) {
@@ -15,10 +15,10 @@ export function redisService(_context: any): ServiceDescriptor {
     json: {
       name: _context.name,
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
-      type: serviceTiplogy
+      type: serviceTiplogy,
     },
     templates: apply(templates, [template({ ..._context, ...strings })]),
   };
 }
 
-redisService.tipology = serviceTiplogy
+redisService.tipology = serviceTiplogy;

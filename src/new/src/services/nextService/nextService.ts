@@ -1,4 +1,4 @@
-import { ServiceDescriptor } from "../serviceFactory";
+import { ServiceDescriptor } from "../../serviceFactory";
 import {
   url,
   apply,
@@ -9,7 +9,7 @@ import {
 } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 import { resolve, join } from "path";
-import { TaskExecutorGenericOptionsInterface } from "../../../shared/tasks/taskExecutor/genericTaskExecutor";
+import { TaskExecutorGenericOptionsInterface } from "../../../../shared/tasks/taskExecutor/genericTaskExecutor";
 
 export const NextJsTaskName = "next-task-name";
 
@@ -34,7 +34,7 @@ export const NextJsTaskTaskExec: TaskExecutorFactory<TaskExecutorGenericOptionsI
   name: NextJsTaskName,
   create: (options) =>
     import(
-      "../../../shared/tasks/taskExecutor/genericTaskExecutor"
+      "../../../../shared/tasks/taskExecutor/genericTaskExecutor"
     ).then((mod) => mod.default(options)),
 };
 

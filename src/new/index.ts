@@ -10,13 +10,13 @@ import { NotInWorkspaceError } from "../shared/errors/NotInWorkspaceError";
 import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import { DependencyManager } from "./src/dependencyManager/dependencyManager";
 import { ServiceFactory, autoRegister } from "./src/serviceFactory";
-import { NextJsTaskTaskExec } from "./src/services/nextService";
+import { NextJsTaskTaskExec } from "./src/services/nextService/nextService";
 import registerTaskExecutor from "../shared/tasks/helpers/schematicTaskExecutorRegister";
-import { CRAJsTaskTaskExec } from "./src/services/craService";
+import { CRAJsTaskTaskExec } from "./src/services/craService/craService";
 import {
   AddSageTaskExec,
   ComposerInstallTaskExec,
-} from "./src/services/wordpressService";
+} from "./src/services/wordpressService/wordpressService";
 
 // Here you can register all the task executors
 const tasksExecutors = [

@@ -1,8 +1,8 @@
-import { ServiceDescriptor } from "../serviceFactory";
+import { ServiceDescriptor } from "../../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 
-const serviceTiplogy = 'php7'
+const serviceTiplogy = "php7";
 
 export function Php7Service(_context: any): ServiceDescriptor {
   if (!_context?.name) {
@@ -11,7 +11,7 @@ export function Php7Service(_context: any): ServiceDescriptor {
 
   const templates = url("./files/services/php7");
 
-  const nginxServiceName = `${_context.name}_php7_nginx`
+  const nginxServiceName = `${_context.name}_php7_nginx`;
 
   return {
     json: {
@@ -20,18 +20,18 @@ export function Php7Service(_context: any): ServiceDescriptor {
       type: serviceTiplogy,
       depends: [
         {
-          type: 'nginx',
+          type: "nginx",
           options: {
             name: nginxServiceName,
             fpmService: `${_context.name}`,
             fpmServicePort: 9000,
-            fpmCodePath: '/usr/site'
-          }
-        }
-      ]
+            fpmCodePath: "/usr/site",
+          },
+        },
+      ],
     },
     templates: apply(templates, [template({ ..._context, ...strings })]),
   };
 }
 
-Php7Service.tipology = serviceTiplogy
+Php7Service.tipology = serviceTiplogy;

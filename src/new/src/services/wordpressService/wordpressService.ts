@@ -1,4 +1,4 @@
-import { ServiceDescriptor } from "../serviceFactory";
+import { ServiceDescriptor } from "../../serviceFactory";
 import {
   url,
   apply,
@@ -8,8 +8,8 @@ import {
   TaskExecutorFactory,
 } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
-import { TaskExecutorGenericOptionsInterface } from "../../../shared/tasks/taskExecutor/genericTaskExecutor";
-import { COMPOSER_BIN } from "../../../shared/constants";
+import { TaskExecutorGenericOptionsInterface } from "../../../../shared/tasks/taskExecutor/genericTaskExecutor";
+import { COMPOSER_BIN } from "../../../../shared/constants";
 import { join, resolve } from "path";
 
 export const AddSageTaskName = "add-sage-task-name";
@@ -34,7 +34,7 @@ export const AddSageTaskExec: TaskExecutorFactory<TaskExecutorGenericOptionsInte
   name: AddSageTaskName,
   create: (options) =>
     import(
-      "../../../shared/tasks/taskExecutor/genericTaskExecutor"
+      "../../../../shared/tasks/taskExecutor/genericTaskExecutor"
     ).then((mod) => mod.default(options)),
 };
 
@@ -59,7 +59,7 @@ export const ComposerInstallTaskExec: TaskExecutorFactory<TaskExecutorGenericOpt
   name: ComposerInstallTaskName,
   create: (options) =>
     import(
-      "../../../shared/tasks/taskExecutor/genericTaskExecutor"
+      "../../../../shared/tasks/taskExecutor/genericTaskExecutor"
     ).then((mod) => mod.default(options)),
 };
 

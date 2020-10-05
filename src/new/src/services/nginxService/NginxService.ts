@@ -1,9 +1,9 @@
-import { ServiceDescriptor } from "../serviceFactory";
+import { ServiceDescriptor } from "../../serviceFactory";
 import { url, apply, template, Tree, Rule } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 import { readFileSync, writeFileSync } from "fs";
 import * as yaml from "js-yaml";
-import { makeConfiguratorFacade } from "../../../shared/helpers/ConfigurationHelper";
+import { makeConfiguratorFacade } from "../../../../shared/helpers/ConfigurationHelper";
 
 const serviceTiplogy = "nginx";
 

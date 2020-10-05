@@ -1,25 +1,26 @@
-import { craService } from "./services/craService";
-import { nextService } from "./services/nextService";
-import { redisService } from "./services/redisService";
-import { mongoService } from "./services/mongoService";
-import { mysqlService } from "./services/mysqlService";
-import { wordpressService } from "./services/wordpressService";
-import { postgresService } from "./services/postgresService";
+import { craService } from "./services/craService/craService";
+import { nextService } from "./services/nextService/nextService";
+import { redisService } from "./services/redisService/redisService";
+import { mongoService } from "./services/mongoService/mongoService";
+import { mysqlService } from "./services/mysqlService/mysqlService";
+import { wordpressService } from "./services/wordpressService/wordpressService";
+import { postgresService } from "./services/postgresService/postgresService";
 
 import { Service } from "../../shared/helpers/ConfigurationHelper";
 import { Source, TaskConfigurationGenerator } from "@angular-devkit/schematics";
-import { NodeService } from "./services/NodeService";
-import { CustomService } from "./services/CustomService";
-import { Php7Service } from "./services/Php7Service";
-import { NginxService } from "./services/NginxService";
-import { LaravelService } from "./services/laravelService";
+import { NodeService } from "./services/nodeService/NodeService";
+import { CustomService } from "./services/customService/CustomService";
+import { Php7Service } from "./services/phpService/Php7Service";
+import { NginxService } from "./services/nginxService/NginxService";
+import { LaravelService } from "./services/laravelService/laravelService";
 
+// prettier-ignore
 const services = [NodeService, Php7Service, NginxService, postgresService , wordpressService , mysqlService , mongoService , redisService, LaravelService , nextService , craService /*ADDNEWSERVICE*/];
-
+// prettier-ignore-end
 export interface ServiceDescriptor {
   json: Service;
   templates: Source;
-  tasks?: Array<TaskConfigurationGenerator>
+  tasks?: Array<TaskConfigurationGenerator>;
 }
 
 type FunctionServiceDescriptor = (context: any) => ServiceDescriptor;
