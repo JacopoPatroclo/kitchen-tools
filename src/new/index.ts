@@ -13,9 +13,18 @@ import { ServiceFactory, autoRegister } from "./src/serviceFactory";
 import { NextJsTaskTaskExec } from "./src/services/nextService";
 import registerTaskExecutor from "../shared/tasks/helpers/schematicTaskExecutorRegister";
 import { CRAJsTaskTaskExec } from "./src/services/craService";
+import {
+  AddSageTaskExec,
+  ComposerInstallTaskExec,
+} from "./src/services/wordpressService";
 
 // Here you can register all the task executors
-const tasksExecutors = [NextJsTaskTaskExec, CRAJsTaskTaskExec];
+const tasksExecutors = [
+  NextJsTaskTaskExec,
+  CRAJsTaskTaskExec,
+  AddSageTaskExec,
+  ComposerInstallTaskExec,
+];
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.

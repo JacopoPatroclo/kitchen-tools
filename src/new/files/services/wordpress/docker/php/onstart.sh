@@ -9,6 +9,7 @@ composer install
 
 if [ "$PHP_ENV" = "production" ]
 then
+    sleep 10
     rm -rf $CODE_DIR/*
     cp -a -v $SOURCE_CODE_DIR/* $CODE_DIR
 fi

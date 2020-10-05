@@ -4,6 +4,7 @@ FROM php:7.2-fpm
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
+	curl \
 	# Ghostscript is required for rendering PDF previews
 	ghostscript \
 	; \

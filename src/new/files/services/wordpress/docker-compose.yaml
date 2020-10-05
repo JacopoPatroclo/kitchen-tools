@@ -50,3 +50,25 @@ services:
     depends_on:
       - proxy
       - <%= name %>
+<% if(themeName) { %>
+  <%= name %>_frunner_<%= themeName %>:
+    image: ${REGISTRY}<%= name %>_frunner_<%= themeName %>:latest
+    container_name: ${COMPOSE_PROJECT_NAME}.<%= name %>_frunner_<%= themeName %>
+    restart: unless-stopped
+    build:
+      context: ./services/<%= name %>
+      dockerfile: ./docker/node/Dockerfile
+    volumes:
+      - <%= name %>_fpm_share_code:/usr/site/public
+      - ./services/<%= name %>/src:/usr/site/public
+    networks:
+      - <%= name %>_net
+      - proxy
+    environment:
+      - PHP_ENV=${PHP_ENV}
+      - VIRTUAL_HOST=<%= name %>-dev.local
+      - VIRTUAL_PORT=80
+    depends_on:
+      - proxy
+      - <%= name %>
+<% } %>
