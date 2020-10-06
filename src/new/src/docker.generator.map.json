@@ -1,0 +1,13 @@
+{
+  "cra": "./services/craService/craServiceDCF",
+  "laravel": "./services/laravelService/laravelServiceDCF",
+  "mongo": "./services/mongoService/mongoServiceDCF",
+  "mysql": "./services/mysqlService/mysqlServiceDCF",
+  "next": "./services/nextService/nextServiceDCF",
+  "nginx": "./services/nginxService/nginxServiceDCF",
+  "node": "./services/nodeService/nodeServiceDCF",
+  "php7": "./services/phpService/phpServiceDCF",
+  "postgres": "./services/postgresService/postgresServiceDCF",
+  "redis": "./services/redisService/redisServiceDCF",
+  "wordpress": "./services/wordpressService/wordpressServiceDCF"
+}

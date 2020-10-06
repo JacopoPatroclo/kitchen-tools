@@ -28,3 +28,7 @@ export function parseWithEnv(val: string = "") {
   const envName = extractEnv(val);
   return envName && process.env[envName] ? process.env[envName] : val;
 }
+
+export function generateDomainServiceName(name: string) {
+  return `${name}.local`;
+}

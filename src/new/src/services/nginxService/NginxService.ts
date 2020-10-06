@@ -37,6 +37,24 @@ export function NginxService(_context: any): ServiceDescriptor {
     throw new Error("Missing name as a parameter");
   }
 
+  if (
+    (_context.fpmService && !_context.fpmIndexService) ||
+    (!_context.fpmService && _context.fpmIndexService)
+  ) {
+    throw new Error(
+      "If you pass --fpmService you should provide --fpmIndexService"
+    );
+  }
+
+  if (
+    (_context.proxyPass && !_context.proxyProtocol) ||
+    (!_context.proxyPass && _context.proxyProtocol)
+  ) {
+    throw new Error(
+      "If you pass --proxyPass you should provide --proxyProtocol"
+    );
+  }
+
   const templates = url("./files/services/nginx");
 
   const templateOptions = {
@@ -47,7 +65,6 @@ export function NginxService(_context: any): ServiceDescriptor {
     proxyProtocol: null,
     proxyPassRewrite: false,
     ..._context,
-    ...strings,
   };
 
   return {
@@ -55,10 +72,11 @@ export function NginxService(_context: any): ServiceDescriptor {
       name: _context.name,
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy,
+      options: templateOptions,
     },
     templates: apply(templates, [
-      template(templateOptions),
-      updateNetworkOfTarget(templateOptions),
+      template({ ...templateOptions, ...strings }),
+      updateNetworkOfTarget({ ...templateOptions, ...strings }),
     ]),
   };
 }

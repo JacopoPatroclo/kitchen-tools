@@ -76,6 +76,11 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@gfi-centre-ouest/docker-compose-spec-typescript@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@gfi-centre-ouest/docker-compose-spec-typescript/-/docker-compose-spec-typescript-1.0.0.tgz#860e173fc01a2b5bfb5db6d65eacca7c17eb7ee1"
+  integrity sha512-cBJ+CPrp6XzSljHb5n5dFQDZ26a8pqGGqYpraMgq3IlHKxOmjdgGuAsEdNZ/Ktinr2ROfrfzqMl19wG/DjzVlA==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

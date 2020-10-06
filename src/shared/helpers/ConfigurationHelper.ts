@@ -2,6 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { CONFIG_FILE_NAME } from "../constants";
 import { NotInWorkspaceError } from "../errors/NotInWorkspaceError";
+import { ConfigSchema } from "./dockerComposeWriter";
 
 export interface DependentService {
   type: string;
@@ -21,6 +22,10 @@ export interface Service {
   dcompose: string;
   type: string;
   depends?: Array<DependentService>;
+  dockerCompose?: ConfigSchema;
+  options?: {
+    [key: string]: any;
+  };
 }
 
 export interface Configuration {

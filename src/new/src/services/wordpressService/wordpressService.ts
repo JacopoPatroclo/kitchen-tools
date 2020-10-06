@@ -111,6 +111,10 @@ export function wordpressService(_context: any): ServiceDescriptor {
       name: _context.name,
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy,
+      options: {
+        themeName: _context.sageThemeName,
+        dbNetwork,
+      },
       depends: [
         {
           type: "mysql",
