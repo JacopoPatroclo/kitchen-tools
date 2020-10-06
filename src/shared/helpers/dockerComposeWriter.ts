@@ -111,20 +111,20 @@ export class DCConfigFactoryNotRegisteredError extends Error {
 }
 
 export async function autoregisterDCConfigFactory(
-  repo: DockerComposeDefinitionRepository,
-  config: ConfigurationHelper
+  repo: DockerComposeDefinitionRepository
 ) {
-  for (let index = 0; index < config.services.length; index++) {
-    const service = config.services[index];
-    if (dockerGeneratorsMap[service.type]) {
+  const listRegistrableServices = Object.keys(dockerGeneratorsMap);
+  for (let index = 0; index < listRegistrableServices.length; index++) {
+    const type = listRegistrableServices[index];
+    if (dockerGeneratorsMap[type]) {
       const factoryModulePath = join(
         "../../new/src",
-        dockerGeneratorsMap[service.type]
+        dockerGeneratorsMap[type]
       );
       const factoryFunction = (await import(factoryModulePath).then(
         (module) => module.default
       )) as DCConfigFactory;
-      repo.register(service.type, factoryFunction);
+      repo.register(type, factoryFunction);
     }
   }
 }

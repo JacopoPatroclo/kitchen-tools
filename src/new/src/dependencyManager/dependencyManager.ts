@@ -10,7 +10,10 @@ import {
 } from "@angular-devkit/schematics";
 
 export class DependencyManager {
-  constructor(private configService: ConfigurationHelper, private sFactory: ServiceFactory) {}
+  constructor(
+    private configService: ConfigurationHelper,
+    private sFactory: ServiceFactory
+  ) {}
 
   resolve(tipology: string, context: any) {
     const serviceDescription = this.sFactory.factory(tipology, context);
@@ -20,9 +23,14 @@ export class DependencyManager {
       );
     }
     const serviceList = this.extractServicesList(serviceDescription);
-    serviceList.push(serviceDescription)
+    serviceList.push(serviceDescription);
 
-    return this.flatten(serviceList.map((serviceDesc) => [this.addService(serviceDesc), this.runScript(serviceDescription)]));
+    return [
+      ...this.flatten(
+        serviceList.map((serviceDesc) => [this.addService(serviceDesc)])
+      ),
+      this.runScript(serviceDescription),
+    ];
   }
 
   addService(serviceDescription: ServiceDescriptor) {
@@ -42,9 +50,9 @@ export class DependencyManager {
   runScript(serviceDescription: ServiceDescriptor): Rule {
     return (_: Tree, context: SchematicContext) => {
       if (serviceDescription.tasks) {
-        serviceDescription.tasks.forEach(task => context.addTask(task))
+        serviceDescription.tasks.forEach((task) => context.addTask(task));
       }
-    }
+    };
   }
 
   extractServicesList(
@@ -54,7 +62,10 @@ export class DependencyManager {
       return this.flatten(
         serviceDescription.json.depends
           .map((dependentServiceConfig) =>
-            this.sFactory.factory(dependentServiceConfig.type, dependentServiceConfig.options)
+            this.sFactory.factory(
+              dependentServiceConfig.type,
+              dependentServiceConfig.options
+            )
           )
           .map((service) => [service, ...this.extractServicesList(service)])
       );
@@ -63,7 +74,9 @@ export class DependencyManager {
     }
   }
 
-  flatten<T>(items: Array<Array<T> | Array<Array<T>> | Array<Array<Array<T>>>  | T>): Array<T> {
+  flatten<T>(
+    items: Array<Array<T> | Array<Array<T>> | Array<Array<Array<T>>> | T>
+  ): Array<T> {
     const flat: Array<T> = [];
     if (!Array.isArray(items)) {
       return [items];

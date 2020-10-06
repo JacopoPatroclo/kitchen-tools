@@ -38,11 +38,11 @@ export function NginxService(_context: any): ServiceDescriptor {
   }
 
   if (
-    (_context.fpmService && !_context.fpmIndexService) ||
-    (!_context.fpmService && _context.fpmIndexService)
+    (_context.fpmService && !_context.fpmServicePort) ||
+    (!_context.fpmService && _context.fpmServicePort)
   ) {
     throw new Error(
-      "If you pass --fpmService you should provide --fpmIndexService"
+      "If you pass --fpmService you should provide --fpmServicePort"
     );
   }
 
@@ -59,7 +59,7 @@ export function NginxService(_context: any): ServiceDescriptor {
 
   const templateOptions = {
     fpmCodePath: "/usr/site/public",
-    fpmIndexService: null,
+    fpmServicePort: null,
     fpmService: null,
     proxyPass: null,
     proxyProtocol: null,

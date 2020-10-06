@@ -1,16 +1,43 @@
 import { ServiceDescriptor } from "../../serviceFactory";
-import { url, apply, template } from "@angular-devkit/schematics";
+import {
+  url,
+  apply,
+  template,
+  TaskExecutorFactory,
+  TaskConfiguration,
+  TaskConfigurationGenerator,
+} from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
-import { execSync } from "child_process";
+import { TaskExecutorGenericOptionsInterface } from "../../../../shared/tasks/taskExecutor/genericTaskExecutor";
+import { join, resolve } from "path";
+import { COMPOSER_BIN } from "../../../../shared/constants";
+
+export const LaravelTaskName = "laravel-init-task-name";
+
+class LaravelTask implements TaskConfigurationGenerator {
+  constructor(private workingDirectory: string, private _context) {}
+
+  toConfiguration(): TaskConfiguration<TaskExecutorGenericOptionsInterface> {
+    return {
+      name: LaravelTaskName,
+      options: {
+        command: COMPOSER_BIN,
+        args: ["create-project", "--prefer-dist", "laravel/laravel", "src"],
+        workingDirectory: this.workingDirectory,
+      },
+    };
+  }
+}
+
+export const LaravelTaskTaskExec: TaskExecutorFactory<TaskExecutorGenericOptionsInterface> = {
+  name: LaravelTaskName,
+  create: (options) =>
+    import(
+      "../../../../shared/tasks/taskExecutor/genericTaskExecutor"
+    ).then((mod) => mod.default(options)),
+};
 
 const serviceTiplogy = "laravel";
-
-const generatedAppKey = () => {
-  const key = execSync('echo "base64:$(openssl rand -base64 32)"', {
-    encoding: "utf8",
-  });
-  return key.trim();
-};
 
 export function LaravelService(_context: any): ServiceDescriptor {
   if (!_context?.name) {
@@ -19,22 +46,27 @@ export function LaravelService(_context: any): ServiceDescriptor {
 
   const templates = url("./files/services/laravel");
 
-  const nginxServiceName = `${_context.name}_laravel_nginx`;
+  const db = _context.db ? _context.db : "mysql";
+  const dbServiceName = `${_context.name}_laravel_${db}`;
 
-  const dbServiceName = `${_context.name}_laravel_${
-    _context.db ? _context.db : "postgres"
-  }`;
+  const redisServiceName = `${_context.name}_laravel_redis`;
 
-  let databaseService = {
-    type: _context.db ? _context.db : "postgres",
+  const databaseService = {
+    type: db,
     options: {
       name: dbServiceName,
     },
   };
 
-  const dbNetwork = `${
-    _context.db ? _context.db : "postgres"
-  }_${dbServiceName}_network`;
+  const cacheService = {
+    type: "redis",
+    options: {
+      name: redisServiceName,
+    },
+  };
+
+  const dbNetwork = `${db}_${dbServiceName}_network`;
+  const redisNetwork = `${redisServiceName}_network`;
   const dbHost = dbServiceName;
 
   return {
@@ -42,28 +74,27 @@ export function LaravelService(_context: any): ServiceDescriptor {
       name: _context.name,
       dcompose: `./services/${_context.name}/docker-compose.yaml`,
       type: serviceTiplogy,
-      depends: [
-        {
-          type: "nginx",
-          options: {
-            name: nginxServiceName,
-            fpmService: `${_context.name}`,
-            fpmServicePort: 9000,
-            fpmCodePath: "/usr/site",
-          },
-        },
-        databaseService,
-      ],
+      options: {
+        dbNetwork,
+        dbHost,
+        redisNetwork,
+      },
+      depends: [databaseService],
     },
     templates: apply(templates, [
       template({
         dbNetwork,
         dbHost,
-        generatedAppKey: generatedAppKey(),
         ..._context,
         ...strings,
       }),
     ]),
+    tasks: [
+      new LaravelTask(
+        resolve(join(process.cwd(), "services", _context.name)),
+        _context
+      ),
+    ],
   };
 }
 

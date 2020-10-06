@@ -1,4 +1,4 @@
-import { SpawnOptions, spawn } from "child_process";
+import { spawn } from "cross-spawn";
 import { TaskExecutor, SchematicContext } from "@angular-devkit/schematics";
 
 export interface TaskExecutorGenericOptionsInterface {
@@ -11,9 +11,9 @@ export const execute = (
   options: TaskExecutorGenericOptionsInterface,
   ignoreErrorStream?: boolean
 ) => {
-  const outputStream = "inherit";
+  const outputStream: any = "inherit";
   const errorStream = ignoreErrorStream ? "ignore" : process.stderr;
-  const spawnOptions: SpawnOptions = {
+  const spawnOptions = {
     stdio: [process.stdin, outputStream, errorStream],
     shell: true,
     cwd: options.workingDirectory,

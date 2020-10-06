@@ -1,24 +1,67 @@
 import { ConfigSchema } from "../../../../shared/helpers/dockerComposeWriter";
-import { buildConfig } from "../../../../shared/helpers/partialsDC/buildConfig";
+import { generateDomainServiceName } from "../../../../shared/helpers/Utils";
 
 export default function (context: any): ConfigSchema {
   return {
     version: "3.5",
     services: {
+      [`${context.name}_frontend_runner`]: {
+        build: {
+          context: `./services/${context.name}`,
+          dockerfile: "./docker/node/Dockerfile",
+        },
+        image: "${REGISTRY}" + context.name + "_frontend_runner:latest",
+        container_name:
+          "${COMPOSE_PROJECT_NAME}." + context.name + "_frontend_runner",
+        restart: "unless-stopped",
+        volumes: [
+          `${context.name}_fpm_share_code:/usr/site`,
+          `./services/${context.name}/src:/usr/site`,
+        ],
+        environment: ["PHP_ENV=${PHP_ENV}"],
+      },
+      [`${context.name}_ingress`]: {
+        image: "${REGISTRY}" + context.name + "_entrypoint:latest",
+        container_name:
+          "${COMPOSE_PROJECT_NAME}." + context.name + "_entrypoint",
+        restart: "unless-stopped",
+        build: {
+          context: `./services/${context.name}`,
+          dockerfile: "./docker/nginx/Dockerfile",
+        },
+        volumes: [
+          `${context.name}_fpm_share_code:/usr/site`,
+          `./services/${context.name}/src:/usr/site`,
+          `./services/${context.name}/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf`,
+        ],
+        networks: [`${context.name}_net`, "proxy"],
+        environment: [
+          `VIRTUAL_HOST=${generateDomainServiceName(context.name)}`,
+        ],
+        depends_on: ["proxy", context.name],
+      },
       [context.name]: {
         image: "${REGISTRY}" + context.name + ":latest",
         container_name: "${COMPOSE_PROJECT_NAME}." + context.name,
         restart: "unless-stopped",
-        build: buildConfig(context.name),
+        networks: [
+          context.redisNetwork,
+          context.dbNetwork,
+          `${context.name}_net`,
+        ],
+        build: {
+          context: `./services/${context.name}`,
+          dockerfile: "./docker/laravel/Dockerfile",
+        },
         volumes: [
-          "fpm_share_code:/usr/site",
+          `${context.name}_fpm_share_code:/usr/site`,
           `./services/${context.name}/src:/usr/site`,
         ],
         environment: [
           "PHP_ENV=${PHP_ENV}",
           `APP_NAME=${context.name}`,
           "APP_ENV=${PHP_ENV}",
-          `APP_KEY=${context.appkey}`,
+          "APP_KEY=${APP_KEY}",
           "APP_DEBUG=${APP_DEBUG}",
           "APP_URL=${APP_URL}",
           "LOG_CHANNEL=${LOG_CHANNEL}",
@@ -60,9 +103,10 @@ export default function (context: any): ConfigSchema {
     networks: {
       [`${context.name}_net`]: null,
       [context.dbNetwork]: null,
+      [context.redisNetwork]: null,
     },
     volumes: {
-      ["fpm_share_code"]: null,
+      [`${context.name}_fpm_share_code`]: null,
     },
   };
 }

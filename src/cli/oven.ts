@@ -48,7 +48,7 @@ const main = async () => {
   };
   const repoDockerConfig = new DockerComposeDefinitionRepository();
 
-  await autoregisterDCConfigFactory(repoDockerConfig, config);
+  await autoregisterDCConfigFactory(repoDockerConfig);
 
   await dockerComposesRegeneration(config, repoDockerConfig, {
     env,

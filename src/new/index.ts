@@ -17,6 +17,7 @@ import {
   AddSageTaskExec,
   ComposerInstallTaskExec,
 } from "./src/services/wordpressService/wordpressService";
+import { LaravelTaskTaskExec } from "./src/services/laravelService/laravelService";
 
 // Here you can register all the task executors
 const tasksExecutors = [
@@ -24,6 +25,7 @@ const tasksExecutors = [
   CRAJsTaskTaskExec,
   AddSageTaskExec,
   ComposerInstallTaskExec,
+  LaravelTaskTaskExec,
 ];
 
 // You don't have to export the function as default. You can also have more than one rule factory
