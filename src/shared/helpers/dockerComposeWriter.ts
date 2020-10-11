@@ -1,3 +1,5 @@
+import "reflect-metadata";
+import { injectable } from "inversify";
 import {
   ConfigSchemaV35Json,
   Labels,
@@ -5,11 +7,12 @@ import {
   ListOrDict,
 } from "@gfi-centre-ouest/docker-compose-spec-typescript/lib/docker-compose-spec-v3.5";
 import { merge } from "lodash";
-import { ConfigurationHelper, Service } from "./ConfigurationHelper";
+import { Service } from "./ConfigurationHelper";
 import * as yaml from "js-yaml";
 import { writeFile } from "fs";
 import { join } from "path";
 import dockerGeneratorsMap = require("../../new/src/docker.generator.map.json");
+import { ConfigService } from "./injectableServices/Config.service";
 
 export type ConfigSchema = ConfigSchemaV35Json;
 export type BildSchema =
@@ -45,7 +48,7 @@ ${yaml.safeDump(dockerComposeDesc)}`;
 }
 
 export async function dockerComposesRegeneration(
-  config: ConfigurationHelper,
+  config: ConfigService,
   dockerConfig: DockerComposeDefinitionRepository,
   _context: any
 ) {
@@ -73,6 +76,7 @@ export function mergeDCConfig(
 
 export type DCConfigFactory<T = any> = (context: T) => ConfigSchema;
 
+@injectable()
 export class DockerComposeDefinitionRepository {
   private map = new Map<string, DCConfigFactory>();
 

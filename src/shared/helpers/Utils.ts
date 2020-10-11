@@ -32,3 +32,13 @@ export function parseWithEnv(val: string = "") {
 export function generateDomainServiceName(name: string) {
   return `${name}.local`;
 }
+
+export function is(value: any, ...list: Array<string>) {
+  if (list.find((a) => value === a)) {
+    return value;
+  } else {
+    throw new Error(
+      `Value ${value} is not valid, use one of: ${list.join(", ")}`
+    );
+  }
+}

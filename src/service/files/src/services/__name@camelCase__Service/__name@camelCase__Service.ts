@@ -1,4 +1,4 @@
-import { ServiceDescriptor } from "../../serviceFactory";
+
 import {
   url,
   apply,

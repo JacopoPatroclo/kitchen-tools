@@ -1,4 +1,3 @@
-import { ServiceDescriptor } from "../../serviceFactory";
 import {
   url,
   apply,
@@ -11,6 +10,7 @@ import { strings } from "@angular-devkit/core";
 import { TaskExecutorGenericOptionsInterface } from "../../../../shared/tasks/taskExecutor/genericTaskExecutor";
 import { join, resolve } from "path";
 import { COMPOSER_BIN } from "../../../../shared/constants";
+import { ServiceDescriptor } from "../../../../shared/serviceFactory/ServiceFactory";
 
 export const LaravelTaskName = "laravel-init-task-name";
 

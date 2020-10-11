@@ -15,7 +15,9 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "target": "es6",
-    "types": ["jasmine", "node"]
+    "types": ["jasmine", "node", "reflect-metadata"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src/**/*"],
   "exclude": ["src/*/files/**/*"]

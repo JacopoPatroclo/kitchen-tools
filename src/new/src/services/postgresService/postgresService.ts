@@ -1,6 +1,6 @@
-import { ServiceDescriptor } from "../../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
+import { ServiceDescriptor } from "../../../../shared/serviceFactory/ServiceFactory";
 
 const serviceTiplogy = "postgres";
 

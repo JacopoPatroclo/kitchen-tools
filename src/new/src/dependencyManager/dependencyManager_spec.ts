@@ -2,7 +2,8 @@ import { DependencyManager } from "./dependencyManager";
 import { ConfigurationHelper } from "../../../shared/helpers/ConfigurationHelper";
 import { apply, url, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
-import { ServiceFactory, autoRegister } from "../serviceFactory";
+import { services } from "../serviceFactory";
+import { ServiceFactory } from "../../../shared/serviceFactory/ServiceFactory";
 
 let depManager: DependencyManager;
 
@@ -27,8 +28,9 @@ describe("dependency manager", () => {
       },
     };
     const config = new ConfigurationHelper(JSON.stringify(conf));
-    const sfactory = new ServiceFactory()
-    depManager = new DependencyManager(config, autoRegister(sfactory));
+    const sfactory = new ServiceFactory();
+    sfactory.autoRegister(services);
+    depManager = new DependencyManager(config, sfactory);
   });
   it("flatten works", () => {
     const result = depManager.flatten([
@@ -57,6 +59,8 @@ describe("dependency manager", () => {
       templates: apply(templates, [template({ ...strings })]),
     });
     expect(result.length).toBe(1);
-    expect(result.find(a => a.json.name === 'bello_php7_nginx')).toBeDefined()
+    expect(
+      result.find((a) => a.json.name === "bello_php7_nginx")
+    ).toBeDefined();
   });
 });

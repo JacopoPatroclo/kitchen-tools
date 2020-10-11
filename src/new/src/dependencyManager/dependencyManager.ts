@@ -1,5 +1,5 @@
 import { ConfigurationHelper } from "../../../shared/helpers/ConfigurationHelper";
-import { ServiceDescriptor, ServiceFactory } from "../serviceFactory";
+
 import {
   Tree,
   apply,
@@ -8,6 +8,10 @@ import {
   SchematicContext,
   Rule,
 } from "@angular-devkit/schematics";
+import {
+  ServiceDescriptor,
+  ServiceFactory,
+} from "../../../shared/serviceFactory/ServiceFactory";
 
 export class DependencyManager {
   constructor(

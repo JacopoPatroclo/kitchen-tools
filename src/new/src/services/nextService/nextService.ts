@@ -1,4 +1,3 @@
-import { ServiceDescriptor } from "../../serviceFactory";
 import {
   url,
   apply,
@@ -10,6 +9,7 @@ import {
 import { strings } from "@angular-devkit/core";
 import { resolve, join } from "path";
 import { TaskExecutorGenericOptionsInterface } from "../../../../shared/tasks/taskExecutor/genericTaskExecutor";
+import { ServiceDescriptor } from "../../../../shared/serviceFactory/ServiceFactory";
 
 export const NextJsTaskName = "next-task-name";
 

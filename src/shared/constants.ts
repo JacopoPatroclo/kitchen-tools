@@ -25,3 +25,4 @@ export const COMPOSER_BIN = join(
   "composer"
 );
 export const COMPOSER_BIN_DIR = join(__dirname, "..", "..", "bin", "composer");
+export const LB_REPO = "https://github.com/expiringcode/loadbalancer.git";

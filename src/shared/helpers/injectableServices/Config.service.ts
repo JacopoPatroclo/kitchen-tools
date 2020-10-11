@@ -1,8 +1,8 @@
 import { readFileSync } from "fs";
-import { join } from "path";
-import { CONFIG_FILE_NAME } from "../constants";
-import { NotInWorkspaceError } from "../errors/NotInWorkspaceError";
-import { ConfigSchema } from "./dockerComposeWriter";
+import { injectable } from "inversify";
+import { NotInWorkspaceError } from "../../errors/NotInWorkspaceError";
+import { ConfigSchema } from "../dockerComposeWriter";
+import { PathResolverService } from "./PathResolver.service";
 
 export interface DependentService {
   type: string;
@@ -36,15 +36,9 @@ export interface Configuration {
   };
 }
 
-/**
- * @deprecated
- */
-export class ConfigurationHelper {
+@injectable()
+export class ConfigService {
   private confObject: Configuration;
-
-  constructor(rawData: string) {
-    this.confObject = JSON.parse(rawData);
-  }
 
   serialize(): string {
     return JSON.stringify(this.confObject, null, 4);
@@ -72,6 +66,10 @@ export class ConfigurationHelper {
     return this.confObject.services.find((service) => service.name === name);
   }
 
+  inject(rawData: string) {
+    this.confObject = JSON.parse(rawData);
+  }
+
   get env() {
     return this.confObject.env;
   }
@@ -85,19 +83,28 @@ export class ConfigurationHelper {
   }
 }
 
-/**
- * @deprecated
- */
-export function makeConfiguratorFacade() {
-  const basePath = process?.cwd();
-  if (basePath) {
-    const pathConfig = join(basePath, CONFIG_FILE_NAME);
-    try {
-      const config = readFileSync(pathConfig).toString();
-      return new ConfigurationHelper(config);
-    } catch (error) {
-      throw new NotInWorkspaceError();
+@injectable()
+export class ConfigFacade {
+  hasLoad = false;
+
+  constructor(
+    private pathResolver: PathResolverService,
+    private configService: ConfigService
+  ) {}
+
+  expose() {
+    if (this.hasLoad) {
+      return this.configService;
+    } else {
+      const pathConfig = this.pathResolver.configPath();
+      try {
+        const config = readFileSync(pathConfig).toString();
+        this.configService.inject(config);
+        this.hasLoad = true;
+        return this.configService;
+      } catch (error) {
+        throw new NotInWorkspaceError();
+      }
     }
   }
-  throw new Error("Unable to find basepath, you are in NodeJS context right?");
 }

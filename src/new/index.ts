@@ -9,7 +9,7 @@ import { CONFIG_FILE_NAME } from "../shared/constants";
 import { NotInWorkspaceError } from "../shared/errors/NotInWorkspaceError";
 import { ConfigurationHelper } from "../shared/helpers/ConfigurationHelper";
 import { DependencyManager } from "./src/dependencyManager/dependencyManager";
-import { ServiceFactory, autoRegister } from "./src/serviceFactory";
+import { services } from "./src/serviceFactory";
 import { NextJsTaskTaskExec } from "./src/services/nextService/nextService";
 import registerTaskExecutor from "../shared/tasks/helpers/schematicTaskExecutorRegister";
 import { CRAJsTaskTaskExec } from "./src/services/craService/craService";
@@ -18,6 +18,7 @@ import {
   ComposerInstallTaskExec,
 } from "./src/services/wordpressService/wordpressService";
 import { LaravelTaskTaskExec } from "./src/services/laravelService/laravelService";
+import { ServiceFactory } from "../shared/serviceFactory/ServiceFactory";
 
 // Here you can register all the task executors
 const tasksExecutors = [
@@ -43,7 +44,7 @@ export function nev(_options: any): Rule {
 
     const config = new ConfigurationHelper(rowData.toString());
     const sFactory = new ServiceFactory();
-    autoRegister(sFactory);
+    sFactory.autoRegister(services);
     const manager = new DependencyManager(config, sFactory);
     const ruleList = manager.resolve(_options.tipology, _options);
 

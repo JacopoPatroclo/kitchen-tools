@@ -1,8 +1,8 @@
-import { ServiceDescriptor } from "../../serviceFactory";
 import { url, apply, template } from "@angular-devkit/schematics";
 import { strings } from "@angular-devkit/core";
 import { resolve, join } from "path";
 import { Service } from "../../../../shared/helpers/ConfigurationHelper";
+import { ServiceDescriptor } from "../../../../shared/serviceFactory/ServiceFactory";
 
 export function CustomService(
   tipology: string,
