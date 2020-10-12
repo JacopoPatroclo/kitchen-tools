@@ -9,7 +9,7 @@ import {
 import { EnvManager } from "../shared/helpers/injectableServices/EnvManager.service";
 import { LoggerService } from "../shared/helpers/injectableServices/Logger.service";
 import { BakeCommnad } from "./commands/BakeCommand/BakeCommand";
-import { GenerateCommand } from "./commands/GenerateCommand/GenerateCommand";
+import { GeneratorCommand } from "./commands/GeneratorCommand/GeneratorCommand";
 import { HelpCommand } from "./commands/HelpCommand/HelpCommand";
 import { NotFoundCommand } from "./commands/NotFoundCommand/NotFoundCommand";
 import { OvenCommand } from "./commands/OvenCommand/OvenCommand";
@@ -19,9 +19,9 @@ const commands = new CommandContainer();
 const COMMANDS = [
   BakeCommnad,
   OvenCommand,
-  GenerateCommand,
   HelpCommand,
   SetupProdCommand,
+  GeneratorCommand,
 ];
 
 // Base shared services

@@ -6,7 +6,7 @@ export default function (context: any): ConfigSchema {
     version: "3.5",
     services: {
       [context.name]: {
-        image: "${REGISTRY}" + context.name + ":latest",
+        image: "${REGISTRY}" + context.name + ":${TAG}",
         container_name: "${COMPOSE_PROJECT_NAME}." + context.name,
         restart: "unless-stopped",
         build: buildConfig(context.name),

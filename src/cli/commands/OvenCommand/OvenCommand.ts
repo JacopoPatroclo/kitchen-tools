@@ -8,6 +8,7 @@ import {
   dockerComposesRegeneration,
 } from "../../../shared/helpers/dockerComposeWriter";
 import { ConfigFacade } from "../../../shared/helpers/injectableServices/Config.service";
+import { DockerComposeWriterService } from "../../../shared/helpers/injectableServices/DockerComposeWriter.service";
 import { EnvManager } from "../../../shared/helpers/injectableServices/EnvManager.service";
 import { SpawnService } from "../../../shared/helpers/injectableServices/Spawn.service";
 import { GenerateEnvHandler } from "./subcommands/GenerateEnvHandler";
@@ -24,6 +25,7 @@ export interface OvenCommandParamsInterface {
     GenerateEnvHandler,
     GenerateHostHandler,
     DockerComposeDefinitionRepository,
+    DockerComposeWriterService,
   ],
 })
 export class OvenCommand implements CommandInterface {
@@ -36,7 +38,7 @@ export class OvenCommand implements CommandInterface {
     private spawnService: SpawnService,
     private configFacade: ConfigFacade,
     private envService: EnvManager,
-    private dcComposeDefRepo: DockerComposeDefinitionRepository
+    private dockerComposeWriterService: DockerComposeWriterService
   ) {
     this.envService.enableWkEnv();
   }
@@ -48,7 +50,9 @@ export class OvenCommand implements CommandInterface {
       .slice(0, args.length)
       .filter((arg) => !this.customFlags.find((flag) => arg === flag));
 
-    const env = this.parseEnvWithInjectableString(this.envService.env);
+    const env = this.envService.parseEnvWithInjectableString(
+      this.envService.env
+    );
 
     const isProdFlag = args
       .slice(0, args.length)
@@ -73,17 +77,10 @@ export class OvenCommand implements CommandInterface {
   }
 
   async handle(args: OvenCommandParamsInterface): Promise<void> {
-    // TODO: Refactor this function to be a facade that use internaly
-    // one service for docker-compose generation and one for the orchestration
-    // of the generation tasks
-    await autoregisterDCConfigFactory(this.dcComposeDefRepo);
-    await dockerComposesRegeneration(
-      this.configFacade.expose(),
-      this.dcComposeDefRepo,
-      {
-        env: args.env,
-      }
-    );
+    await this.dockerComposeWriterService.autoregisterDCConfigFactory();
+    await this.dockerComposeWriterService.dockerComposesRegeneration({
+      env: args.env,
+    });
     switch (args.command) {
       case "env":
         this.envHandler.handle();
@@ -113,31 +110,5 @@ export class OvenCommand implements CommandInterface {
     return this.configFacade
       .expose()
       .services.map((service) => `-f ${service.dcompose}`);
-  }
-
-  private parseEnvWithInjectableString(env: any) {
-    return Object.keys(env)
-      .map((key) => {
-        const envName = key;
-        const envVal = this.parseWithEnv(env[key]);
-        return { [envName]: envVal };
-      })
-      .reduce((acc, obj) => ({ ...acc, ...obj }), {});
-  }
-
-  private parseWithEnv(val: string = "") {
-    const envName = this.extractEnv(val);
-    return envName && this.envService.rawEnv[envName]
-      ? this.envService.rawEnv[envName]
-      : val;
-  }
-
-  private extractEnv(val: string = "") {
-    const regEx = /^\$env{(.*)}$/;
-    const results = regEx.exec(val);
-    if (results) {
-      return results.length > 1 ? results[1] : null;
-    }
-    return null;
   }
 }

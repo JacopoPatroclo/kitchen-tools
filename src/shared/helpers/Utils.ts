@@ -1,3 +1,5 @@
+import { readFile as readFileFs } from "fs";
+
 export function distinct<T = any>(
   list: T[],
   serialize = (a: { toString: () => string }) => a.toString()
@@ -41,4 +43,15 @@ export function is(value: any, ...list: Array<string>) {
       `Value ${value} is not valid, use one of: ${list.join(", ")}`
     );
   }
+}
+
+export function readFile(path: string): Promise<Buffer> {
+  return new Promise((res, rej) => {
+    readFileFs(path, (err, data) => {
+      if (err) {
+        rej(err);
+      }
+      res(data);
+    });
+  });
 }

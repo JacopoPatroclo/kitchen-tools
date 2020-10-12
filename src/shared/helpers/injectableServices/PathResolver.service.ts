@@ -39,4 +39,24 @@ export class PathResolverService {
   lbCloneDir() {
     return join(this.cwd(), "loadbalancer");
   }
+
+  deploymentsDir() {
+    return join(this.cwd(), "deployments");
+  }
+
+  resolveDcPath(dcFile: string) {
+    return join(this.cwd(), dcFile);
+  }
+
+  dockerGeneratorJsonPath() {
+    return resolve(
+      join(__dirname, "..", "..", "..", "new/src/docker.generator.map.json")
+    );
+  }
+
+  resolveDockerGenerator(partialPath: string) {
+    return resolve(
+      join(__dirname, "..", "..", "..", "new", "src", partialPath)
+    );
+  }
 }

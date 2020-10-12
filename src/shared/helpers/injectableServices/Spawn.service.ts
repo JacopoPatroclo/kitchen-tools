@@ -77,6 +77,7 @@ export class SpawnService {
       );
 
       prc.stdout?.on("data", (buf) => {
+        this.logger.context(this._bin!).plain(buf.toString());
         msg = `${msg}${buf.toString()}`;
       });
 

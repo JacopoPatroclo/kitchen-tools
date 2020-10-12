@@ -21,7 +21,9 @@ export class ServiceFactory {
   private serivceMap = new Map<string, ServiceDescriptorCreator>();
 
   register(service: ServiceDescriptorCreator) {
-    this.serivceMap.set(service.tipology, service);
+    if (!this.serivceMap.has(service.tipology)) {
+      this.serivceMap.set(service.tipology, service);
+    }
   }
 
   factory(tipology: string, _context: any) {

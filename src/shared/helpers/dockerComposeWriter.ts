@@ -13,7 +13,9 @@ import { writeFile } from "fs";
 import { join } from "path";
 import dockerGeneratorsMap = require("../../new/src/docker.generator.map.json");
 import { ConfigService } from "./injectableServices/Config.service";
+import { DefinitionsService as DefinitionsServiceV35Json } from "@gfi-centre-ouest/docker-compose-spec-typescript/lib/docker-compose-spec-v3.5";
 
+export type DefinitionsService = DefinitionsServiceV35Json;
 export type ConfigSchema = ConfigSchemaV35Json;
 export type BildSchema =
   | string

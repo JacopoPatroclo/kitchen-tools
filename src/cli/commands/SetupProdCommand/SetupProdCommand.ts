@@ -10,7 +10,7 @@ import { PathResolverService } from "../../../shared/helpers/injectableServices/
 import { SpawnService } from "../../../shared/helpers/injectableServices/Spawn.service";
 import { is } from "../../../shared/helpers/Utils";
 
-type Options = "--elk" | "--influx" | "--letsencrypt";
+type Options = "--elk" | "--influx" | "--letsencrypt" | "--dnsmasq";
 
 export interface SetupProdCommandInterface {
   target: "load-balancer";
@@ -37,7 +37,9 @@ export class SetupProdCommand implements CommandInterface {
     if (target === "load-balancer") {
       options = args
         .slice(1, args.length)
-        .map((arg) => is(arg, "--elk", "--influx", "--letsencrypt"));
+        .map((arg) =>
+          is(arg, "--elk", "--influx", "--letsencrypt", "--dnsmasq")
+        );
     }
 
     return {
@@ -60,6 +62,11 @@ export class SetupProdCommand implements CommandInterface {
   }
 
   async handleLb(args: SetupProdCommandInterface) {
+    await this.spawnService
+      .bin("rm -rf")
+      .args([this.pathService.lbCloneDir()])
+      .spawn();
+
     this.logger.warn("Cloning the repo on your file system");
     await this.spawnService
       .bin("git")
@@ -95,6 +102,8 @@ export class SetupProdCommand implements CommandInterface {
             return [`-f`, `docker-compose-elk.yml`];
           case "--influx":
             return [`-f`, `docker-compose-influx.yml`];
+          case "--dnsmasq":
+            return [`-f`, `docker-compose-dnsmasq.yml`];
           default:
             return "";
         }

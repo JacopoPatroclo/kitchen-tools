@@ -12,6 +12,10 @@ export interface DependentService {
   };
 }
 
+export interface BuildOptions {
+  [key: string]: any;
+}
+
 export interface BaseEnv {
   REGISTRY: string;
   COMPOSE_PROJECT_NAME: string;
@@ -23,6 +27,7 @@ export interface Service {
   type: string;
   depends?: Array<DependentService>;
   dockerCompose?: ConfigSchema;
+  build?: BuildOptions;
   options?: {
     [key: string]: any;
   };
@@ -85,7 +90,7 @@ export class ConfigService {
 
 @injectable()
 export class ConfigFacade {
-  hasLoad = false;
+  private hasLoad = false;
 
   constructor(
     private pathResolver: PathResolverService,

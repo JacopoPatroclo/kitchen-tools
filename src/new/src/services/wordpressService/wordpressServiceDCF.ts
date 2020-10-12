@@ -4,7 +4,7 @@ import { generateDomainServiceName } from "../../../../shared/helpers/Utils";
 
 function phpService(context: any) {
   return {
-    image: "${REGISTRY}" + context.name + ":latest",
+    image: "${REGISTRY}" + context.name + ":${TAG}",
     container_name: "${COMPOSE_PROJECT_NAME}." + context.name,
     restart: "unless-stopped",
     build: {
@@ -28,7 +28,7 @@ function phpService(context: any) {
 
 function nginxService(context: any) {
   return {
-    image: "${REGISTRY}" + context.name + "_entrypoint:latest",
+    image: "${REGISTRY}" + context.name + "_entrypoint:${TAG}",
     container_name: "${COMPOSE_PROJECT_NAME}." + context.name + "_entrypoint",
     restart: "unless-stopped",
     build: {
@@ -53,7 +53,7 @@ function nodeFrontendRunner(context: any) {
       context.name +
       "_frunner_" +
       context.themeName +
-      ":latest",
+      ":${TAG}",
     container_name:
       "${COMPOSE_PROJECT_NAME}." +
       context.name +

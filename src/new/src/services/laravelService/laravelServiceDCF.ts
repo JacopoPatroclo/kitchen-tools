@@ -10,7 +10,7 @@ export default function (context: any): ConfigSchema {
           context: `./services/${context.name}`,
           dockerfile: "./docker/node/Dockerfile",
         },
-        image: "${REGISTRY}" + context.name + "_frontend_runner:latest",
+        image: "${REGISTRY}" + context.name + "_frontend_runner:${TAG}",
         container_name:
           "${COMPOSE_PROJECT_NAME}." + context.name + "_frontend_runner",
         restart: "unless-stopped",
@@ -21,7 +21,7 @@ export default function (context: any): ConfigSchema {
         environment: ["PHP_ENV=${PHP_ENV}"],
       },
       [`${context.name}_ingress`]: {
-        image: "${REGISTRY}" + context.name + "_entrypoint:latest",
+        image: "${REGISTRY}" + context.name + "_entrypoint:${TAG}",
         container_name:
           "${COMPOSE_PROJECT_NAME}." + context.name + "_entrypoint",
         restart: "unless-stopped",
@@ -41,7 +41,7 @@ export default function (context: any): ConfigSchema {
         depends_on: ["proxy", context.name],
       },
       [context.name]: {
-        image: "${REGISTRY}" + context.name + ":latest",
+        image: "${REGISTRY}" + context.name + ":${TAG}",
         container_name: "${COMPOSE_PROJECT_NAME}." + context.name,
         restart: "unless-stopped",
         networks: [

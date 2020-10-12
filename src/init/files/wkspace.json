@@ -3,6 +3,7 @@
   "services": [],
   "env": {
     "REGISTRY": "<%= registry %>/",
-    "COMPOSE_PROJECT_NAME": "<%= name %>"
+    "COMPOSE_PROJECT_NAME": "<%= name %>",
+    "TAG": "latest"
   }
 }

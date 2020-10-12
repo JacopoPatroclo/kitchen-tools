@@ -46,7 +46,7 @@ export default function (context: any): ConfigSchema {
     services: {
       [context.name]: {
         build: buildConfig(context.name),
-        image: "${REGISTRY}" + context.name + ":latest",
+        image: "${REGISTRY}" + context.name + ":${TAG}",
         container_name: "${COMPOSE_PROJECT_NAME}." + context.name,
         restart: "unless-stopped",
         volumes: serviceVolumes,
