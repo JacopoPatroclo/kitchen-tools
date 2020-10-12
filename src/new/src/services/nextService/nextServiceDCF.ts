@@ -17,7 +17,7 @@ export default function (context: any): ConfigSchema {
           "PORT=9000",
           `VIRTUAL_HOST=${generateDomainServiceName(context.name)}`,
         ],
-        volumes: [`./services/${context.name}/src:/app`],
+        volumes: [`./services/${context.name}/src:/usr/src/app`],
         networks: ["proxy"],
       },
     },
