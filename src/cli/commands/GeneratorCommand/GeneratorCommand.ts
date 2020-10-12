@@ -74,9 +74,11 @@ export class GeneratorCommand implements CommandInterface {
       index++
     ) {
       const service = this.configFacade.expose().services[index];
-      const dcConfig = await this.loadDc(service.dcompose);
-      const adapdedDcConfig = this.adaptDcDefForProd(dcConfig, service);
-      await this.saveDc(adapdedDcConfig, service);
+      if (!service.build?.skip) {
+        const dcConfig = await this.loadDc(service.dcompose);
+        const adapdedDcConfig = this.adaptDcDefForProd(dcConfig, service);
+        await this.saveDc(adapdedDcConfig, service);
+      }
     }
   }
 
