@@ -3,7 +3,7 @@
   "version": "0.6.1",
   "description": "Tool to manage monorepo with service oriented architecture based on docker and docker-compose",
   "bin": {
-    "ktools": "./src/cli/index.js"
+    "ktool": "./src/cli/index.js"
   },
   "scripts": {
     "postinstall": "npm run install:kompose && npm run install:composer",
