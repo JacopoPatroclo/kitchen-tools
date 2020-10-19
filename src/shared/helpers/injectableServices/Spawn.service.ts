@@ -81,9 +81,19 @@ export class SpawnService {
         msg = `${msg}${buf.toString()}`;
       });
 
+      if (process) {
+        process.on("SIGINT", () => {
+          if (!prc.killed) {
+            prc.kill("SIGINT");
+          } else {
+            res(msg);
+          }
+        });
+      }
+
       prc.on("exit", (code) => {
         this.resetState();
-        if (code !== 0) {
+        if (code !== 0 && code !== 2) {
           const error = new ProcessExitCodeError(Number(code));
           rej(error);
         } else {
