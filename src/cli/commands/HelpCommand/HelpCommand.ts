@@ -1,4 +1,4 @@
-import { services } from "../../../new/src/serviceFactory";
+import { services } from "../../../schematics/new/src/serviceFactory";
 import {
   Command,
   CommandInterface,

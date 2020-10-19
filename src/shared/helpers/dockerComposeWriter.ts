@@ -11,7 +11,7 @@ import { Service } from "./ConfigurationHelper";
 import * as yaml from "js-yaml";
 import { writeFile } from "fs";
 import { join } from "path";
-import dockerGeneratorsMap = require("../../new/src/docker.generator.map.json");
+import dockerGeneratorsMap = require("../../schematics/new/src/docker.generator.map.json");
 import { ConfigService } from "./injectableServices/Config.service";
 import { DefinitionsService as DefinitionsServiceV35Json } from "@gfi-centre-ouest/docker-compose-spec-typescript/lib/docker-compose-spec-v3.5";
 

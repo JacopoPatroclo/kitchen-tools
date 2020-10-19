@@ -50,13 +50,22 @@ export class PathResolverService {
 
   dockerGeneratorJsonPath() {
     return resolve(
-      join(__dirname, "..", "..", "..", "new/src/docker.generator.map.json")
+      join(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "schematics",
+        "new",
+        "src",
+        "docker.generator.map.json"
+      )
     );
   }
 
   resolveDockerGenerator(partialPath: string) {
     return resolve(
-      join(__dirname, "..", "..", "..", "new", "src", partialPath)
+      join(__dirname, "..", "..", "..", "schematics", "new", "src", partialPath)
     );
   }
 }

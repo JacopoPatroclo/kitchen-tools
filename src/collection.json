@@ -2,24 +2,24 @@
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "init": {
-      "description": "A blank schematic.",
-      "factory": "./init/index#init",
-      "schema": "./init/schema.json"
+      "description": "Init the project",
+      "factory": "./schematics/init/index#init",
+      "schema": "./schematics/init/schema.json"
     },
     "new": {
-      "description": "A blank schematic.",
-      "factory": "./new/index#nev",
-      "schema": "./new/schema.json"
+      "description": "Create a new service",
+      "factory": "./schematics/new/index#nev",
+      "schema": "./schematics/new/schema.json"
     },
     "custom": {
-      "description": "A blank schematic.",
-      "factory": "./custom/index#custom",
-      "schema": "./custom/schema.json"
+      "description": "Create a custom service",
+      "factory": "./schematics/custom/index#custom",
+      "schema": "./schematics/custom/schema.json"
     },
     "service": {
-      "description": "A blank schematic.",
-      "factory": "./service/index#service",
-      "schema": "./service/schema.json"
+      "description": "Create an internal new service",
+      "factory": "./schematics/service/index#service",
+      "schema": "./schematics/service/schema.json"
     }
   }
 }

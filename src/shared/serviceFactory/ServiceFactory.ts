@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Source, TaskConfigurationGenerator } from "@angular-devkit/schematics";
 import { injectable } from "inversify";
-import { CustomService } from "../../new/src/services/customService/CustomService";
+import { CustomService } from "../../schematics/new/src/services/customService/CustomService";
 import { Service } from "../helpers/ConfigurationHelper";
 
 export interface ServiceDescriptor {
