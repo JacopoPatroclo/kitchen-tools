@@ -1,0 +1,10 @@
+{
+  "contentBasePublicPath": "/wp-content/themes/<%= themeName %>/dist",
+  "proxyTarget": "http://<%= name %>_entrypoint",
+  "micro": [
+    {
+      "name": "example",
+      "entry": "./resources/assets/micro/example/index.ts"
+    }
+  ]
+}

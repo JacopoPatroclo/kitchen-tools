@@ -1,0 +1,16 @@
+*.log
+src/vendor
+src/wp
+src/wp-content/plugins/*
+src/wp-content/themes/*
+!src/wp-content/plugins/.gitkeep
+!src/wp-content/themes/.gitkeep
+!src/wp-content/themes/__themeName__
+<% if(themeName) { %>
+!src/wp-content/themes/<%= themeName %>
+<% } %>
+
+# If you are developing a plugin or a theme add something like
+# !src/wp-content/themes/your-theme-name
+# !src/wp-content/plugins/your-pluginn-name
+# to avoid that your code is ignored by git

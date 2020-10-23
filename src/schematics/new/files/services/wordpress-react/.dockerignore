@@ -1,0 +1,4 @@
+*.log
+src/vendor
+src/wp
+src/node_modules

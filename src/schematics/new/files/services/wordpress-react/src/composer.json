@@ -1,0 +1,17 @@
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "johnpbloch/wordpress": "5.5",
+    "wpackagist-plugin/advanced-custom-fields": "*",
+    "wpackagist-theme/twentyseventeen": "*"
+  },
+  "extra": {
+    "wordpress-install-dir": "wp"
+  }
+}

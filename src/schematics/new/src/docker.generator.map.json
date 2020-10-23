@@ -9,5 +9,6 @@
   "php7": "./services/phpService/phpServiceDCF",
   "postgres": "./services/postgresService/postgresServiceDCF",
   "redis": "./services/redisService/redisServiceDCF",
-  "wordpress": "./services/wordpressService/wordpressServiceDCF"
+  "wordpress": "./services/wordpressService/wordpressServiceDCF",
+  "wordpress-react": "./services/wordpressReactService/wordpressReactServiceDCF"
 }
